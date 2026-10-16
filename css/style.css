@@ -1,0 +1,154 @@
+/* ═══════════════════════════════════════════════
+   NoorKit — Style.css
+   الأنماط العامة — الأساس
+   ═══════════════════════════════════════════════ */
+
+/* ─── المتغيرات العامة ─── */
+:root {
+  --nk-bg-primary:     #0d0d0d;
+  --nk-bg-secondary:   #141414;
+  --nk-bg-card:        #1a1a1a;
+  --nk-bg-btn:         #2a2a2a;
+  --nk-bg-btn-hover:   #3a3a3a;
+  --nk-border:         #2a2a2a;
+  --nk-text-primary:   #ffffff;
+  --nk-text-secondary: #b0b0b0;
+  --nk-text-muted:     #888888;
+  --nk-text-dark:      #555555;
+  --nk-accent:         #ffffff;
+  --nk-accent-gold:    #c9a227;
+}
+
+/* ─── Reset ─── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "Cairo", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  background: var(--nk-bg-primary);
+  color: var(--nk-text-primary);
+  direction: rtl;
+  text-align: right;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+}
+
+/* ─── الروابط ─── */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ─── الأزرار ─── */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─── المدخلات ─── */
+input,
+select,
+textarea {
+  font-family: inherit;
+  outline: none;
+  border: none;
+  background: transparent;
+  color: inherit;
+}
+
+/* ─── الحاويات ─── */
+.home-body,
+.editor-body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--nk-bg-primary);
+}
+
+/* ═══════════════════════════════════════════════
+   Toast — التنبيهات
+   ═══════════════════════════════════════════════ */
+
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #ffffff;
+  color: #111111;
+  padding: 12px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  z-index: 99999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  max-width: 80%;
+  text-align: center;
+  font-family: inherit;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ═══════════════════════════════════════════════
+   Scrollbar
+   ═══════════════════════════════════════════════ */
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3a3a3a;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* ═══════════════════════════════════════════════
+   أدوات مساعدة
+   ═══════════════════════════════════════════════ */
+
+.hidden {
+  display: none !important;
+}
+
+.invisible {
+  visibility: hidden !important;
+}
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
