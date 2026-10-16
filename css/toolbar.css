@@ -1,0 +1,418 @@
+/* ═══════════════════════════════════════════════
+   NoorKit — Toolbar.css
+   الشريط السفلي + الشريط العلوي + اللوحة الصغيرة
+   ═══════════════════════════════════════════════ */
+
+/* ═══ الحاوية الرئيسية ═══ */
+.nk-toolbars {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9990;
+  display: flex;
+  flex-direction: column;
+  background: var(--nk-bg-primary, #0d0d0d);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ═══ الشريط العلوي (ديناميكي) ═══ */
+.nk-toolbar-secondary {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  background: var(--nk-bg-secondary, #141414);
+  border-top: 1px solid var(--nk-border, #2a2a2a);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  order: 1;
+  transition: transform 0.12s ease-out;
+  will-change: transform;
+}
+
+.nk-toolbar-secondary::-webkit-scrollbar {
+  display: none;
+}
+
+.nk-toolbar-secondary.active {
+  display: flex;
+}
+
+.nk-toolbars.lifted .nk-toolbar-secondary {
+  transform: translateY(-50px);
+}
+
+/* ═══ الشريط السفلي (الرئيسي) ═══ */
+.nk-toolbar-primary {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  background: var(--nk-bg-primary, #0d0d0d);
+  border-top: 1px solid var(--nk-border, #2a2a2a);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  order: 2;
+}
+
+.nk-toolbar-primary::-webkit-scrollbar {
+  display: none;
+}
+
+/* ═══ شريط الرفع ═══ */
+.nk-lift-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  background: var(--nk-bg-secondary, #141414);
+  border-top: 1px solid var(--nk-border, #2a2a2a);
+  cursor: pointer;
+  order: 3;
+}
+
+.nk-lift-bar:active {
+  background: var(--nk-bg-btn, #2a2a2a);
+}
+
+.nk-lift-handle {
+  width: 42px;
+  height: 4px;
+  background: var(--nk-text-muted, #888);
+  border-radius: 2px;
+}
+
+.nk-toolbars.lifted .nk-lift-handle {
+  background: var(--nk-accent, #ffffff);
+}
+
+/* ═══ الزر الواحد ═══ */
+.nk-tool-btn {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 62px;
+  height: 58px;
+  padding: 5px 3px;
+  background: transparent;
+  color: var(--nk-text-muted, #888);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  transition: color 0.1s;
+  border: none;
+  border-radius: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nk-tool-btn:active,
+.nk-tool-btn.active {
+  color: var(--nk-text-primary, #ffffff);
+}
+
+.nk-tool-btn svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.nk-tool-btn .nk-tool-label {
+  white-space: nowrap;
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* ═══════════════════════════════════════════════
+   اللوحة الصغيرة (Mini Sheet)
+   ═══════════════════════════════════════════════ */
+
+.nk-mini-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 9989;
+  background: var(--nk-bg-secondary, #141414);
+  border-top: 1px solid var(--nk-border, #2a2a2a);
+  border-bottom: 1px solid var(--nk-border, #2a2a2a);
+  transform: translateY(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+  will-change: transform, opacity;
+  display: flex;
+  flex-direction: column;
+  direction: rtl;
+  overflow: hidden;
+  max-height: 32vh;
+}
+
+.nk-mini-sheet.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ─── رأس اللوحة ─── */
+.nk-mini-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--nk-border, #2a2a2a);
+  flex-shrink: 0;
+}
+
+.nk-mini-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--nk-text-primary, #ffffff);
+  flex: 1;
+  text-align: center;
+}
+
+.nk-mini-close {
+  width: 26px;
+  height: 26px;
+  background: #2a2a2a;
+  color: #cccccc;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  font-family: inherit;
+}
+
+.nk-mini-close:active {
+  background: #3a3a3a;
+  color: #ffffff;
+}
+
+.nk-mini-spacer {
+  width: 26px;
+  height: 26px;
+}
+
+/* ─── محتوى اللوحة ─── */
+.nk-mini-content {
+  padding: 10px 12px 14px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a3a transparent;
+}
+
+.nk-mini-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.nk-mini-content::-webkit-scrollbar-thumb {
+  background: #3a3a3a;
+}
+
+/* ═══════════════════════════════════════════════
+   صفوف محتوى اللوحات
+   ═══════════════════════════════════════════════ */
+
+.nk-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.nk-row-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #b0b0b0;
+  white-space: nowrap;
+}
+
+.nk-row-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  background: #2a2a2a;
+  padding: 3px 10px;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════
+   صف الألوان
+   ═══════════════════════════════════════════════ */
+
+.nk-color-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0 6px;
+}
+
+.nk-color-picker-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: conic-gradient(
+    from 0deg,
+    #ff0000, #ffff00, #00ff00, #00ffff,
+    #0000ff, #ff00ff, #ff0000
+  );
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  border-radius: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nk-color-picker-btn:active {
+  opacity: 0.7;
+}
+
+.nk-color-scroll {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px 0;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+}
+
+.nk-color-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.nk-color-dot {
+  width: 36px;
+  height: 36px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s;
+}
+
+.nk-color-dot:active {
+  opacity: 0.7;
+}
+
+.nk-color-dot.active {
+  border-color: #ffffff;
+  box-shadow: inset 0 0 0 2px #141414;
+}
+
+/* ═══════════════════════════════════════════════
+   Slider
+   ═══════════════════════════════════════════════ */
+
+.ts-slider {
+  width: 100%;
+  height: 3px;
+  accent-color: #ffffff;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* ═══════════════════════════════════════════════
+   منتقي اللون (iro)
+   ═══════════════════════════════════════════════ */
+
+.nk-iro-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: #141414;
+  display: flex;
+  flex-direction: column;
+  direction: rtl;
+}
+
+.nk-iro-modal[hidden] {
+  display: none !important;
+}
+
+.nk-iro-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.nk-iro-footer {
+  display: flex;
+  gap: 10px;
+  padding: 14px 20px;
+  padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+}
+
+.nk-iro-btn {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 0;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nk-iro-cancel {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.nk-iro-confirm {
+  background: #ffffff;
+  color: #111;
+}
+
+/* ═══ Responsive ═══ */
+@media (max-width: 360px) {
+  .nk-tool-btn {
+    width: 56px;
+    height: 52px;
+    font-size: 9px;
+  }
+
+  .nk-tool-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nk-color-dot,
+  .nk-color-picker-btn {
+    width: 32px;
+    height: 32px;
+  }
+  }
