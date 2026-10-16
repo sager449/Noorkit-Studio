@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>نور كيت — NoorKit</title>
+    <meta name="description" content="استوديو تصميم احترافي + القرآن الكريم." />
+    <meta name="theme-color" content="#0d0d0d" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="manifest" href="manifest.json" />
+  </head>
+  <body class="home-body">
+
+    <!-- ═══ الهيدر ═══ -->
+    <header class="home-header">
+      <div class="brand">
+        <span class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+        </span>
+        <span class="brand-name">نور<span class="brand-accent">كيت</span></span>
+      </div>
+      <button class="home-icon-btn" id="settings-btn" aria-label="الإعدادات">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- ═══ المحتوى ═══ -->
+    <main class="home-main">
+
+      <!-- زر مشروع جديد -->
+      <a class="home-new-btn" href="editor.html">
+        <span class="home-new-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </span>
+        <span class="home-new-text">مشروع جديد</span>
+      </a>
+
+      <!-- المشاريع السابقة -->
+      <section class="home-section">
+        <div class="home-section-head">
+          <h2 class="home-section-title">مشاريعي</h2>
+          <span class="home-section-count" id="projects-count">0</span>
+        </div>
+        <div class="home-projects" id="projects-grid"></div>
+        <p class="home-empty" id="projects-empty">لا توجد مشاريع بعد</p>
+      </section>
+
+      <!-- القوالب -->
+      <section class="home-section">
+        <div class="home-section-head">
+          <h2 class="home-section-title">قوالب جاهزة</h2>
+        </div>
+        <div class="home-templates" id="templates-grid">
+          <div class="home-template">قريباً</div>
+        </div>
+      </section>
+
+    </main>
+
+    <script src="js/db.js"></script>
+    <script>
+      async function loadProjects() {
+        const grid = document.getElementById("projects-grid");
+        const empty = document.getElementById("projects-empty");
+        const count = document.getElementById("projects-count");
+        if (!grid) return;
+
+        try {
+          if (typeof NoorDB === "undefined") return;
+          const projects = await NoorDB.getAll();
+          if (!projects || projects.length === 0) {
+            grid.innerHTML = "";
+            if (empty) empty.style.display = "block";
+            if (count) count.textContent = "0";
+            return;
+          }
+          if (empty) empty.style.display = "none";
+          if (count) count.textContent = projects.length;
+
+          grid.innerHTML = projects.map((p) => {
+            const d = p.design || {};
+            const title = d.title || "تصميم بدون عنوان";
+            const date = new Date(p.updatedAt).toLocaleDateString("ar-EG");
+            const bg = d.background || {};
+            let thumbStyle = "background:#1a1a1a;";
+
+            if (bg.type === "solid" && bg.value) {
+              thumbStyle = `background:${bg.value};`;
+            } else if (bg.type === "gradient" && bg.value) {
+              thumbStyle = `background:${bg.value};`;
+            } else if (bg.type === "image" && bg.imageUrl) {
+              thumbStyle = `background-image:url('${bg.imageUrl}');background-size:cover;background-position:center;`;
+            }
+
+            return `
+              <a class="home-project" href="editor.html?id=${p.id}">
+                <div class="home-project-thumb" style="${thumbStyle}"></div>
+                <div class="home-project-info">
+                  <div class="home-project-name">${title}</div>
+                  <div class="home-project-date">${date}</div>
+                </div>
+              </a>
+            `;
+          }).join("");
+        } catch (err) {
+          console.error("loadProjects failed:", err);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", loadProjects);
+      window.addEventListener("focus", loadProjects);
+      window.addEventListener("pageshow", loadProjects);
+    </script>
+  </body>
+          </html>
