@@ -1,0 +1,192 @@
+/* ═══════════════════════════════════════════════
+   NoorKit — Editor.css
+   المحرر — الهيكل والهيدر والـ Canvas
+   ═══════════════════════════════════════════════ */
+
+.editor-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #0d0d0d;
+  overflow: hidden;
+}
+
+/* ═══ الهيدر ═══ */
+.editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #141414;
+  border-bottom: 1px solid #2a2a2a;
+  flex-shrink: 0;
+  z-index: 100;
+  height: 56px;
+}
+
+.editor-header-left,
+.editor-header-center,
+.editor-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.editor-header-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.editor-header-center {
+  flex-shrink: 0;
+}
+
+.editor-header-right {
+  flex-shrink: 0;
+}
+
+/* ─── زر أيقونة ─── */
+.editor-icon-btn {
+  width: 36px;
+  height: 36px;
+  background: #2a2a2a;
+  color: #b0b0b0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.editor-icon-btn:active {
+  background: #3a3a3a;
+  color: #ffffff;
+}
+
+.editor-icon-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.editor-icon-btn.primary {
+  background: #ffffff;
+  color: #0d0d0d;
+}
+
+.editor-icon-btn.primary:active {
+  background: #e0e0e0;
+}
+
+.editor-icon-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ─── حقل العنوان ─── */
+.editor-title-input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  background: transparent;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.editor-title-input::placeholder {
+  color: #666;
+}
+
+/* ═══ مساحة العمل ═══ */
+.editor-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  padding-bottom: 200px;
+  overflow: hidden;
+  position: relative;
+  transition: padding-bottom 0.2s ease-out;
+}
+
+/* ─── حاوية الـ Canvas ─── */
+.canvas-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.2s ease-out;
+}
+
+.canvas-wrapper.canvas-shifted {
+  transform: translateY(-12vh);
+}
+
+/* ─── الـ Canvas ─── */
+.canvas-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  background: #f5ede0;
+  position: relative;
+}
+
+#main-canvas {
+  display: block;
+  background: #f5ede0;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ═══ اللوحات القديمة (مخفية) ═══ */
+.tool-panel {
+  display: none !important;
+}
+
+/* ═══ Responsive ═══ */
+@media (max-width: 360px) {
+  .editor-header {
+    padding: 6px 8px;
+    height: 50px;
+  }
+
+  .editor-icon-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .editor-icon-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .editor-title-input {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+
+  .editor-main {
+    padding: 12px;
+    padding-bottom: 180px;
+  }
+}
+
+/* ═══ شاشات كبيرة ═══ */
+@media (min-width: 900px) {
+  .editor-main {
+    padding: 32px;
+    padding-bottom: 220px;
+  }
+  }
