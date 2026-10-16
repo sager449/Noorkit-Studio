@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>المحرر — نور كيت</title>
+    <meta name="description" content="صمم آية قرآنية بخطوط عربية جميلة." />
+    <meta name="theme-color" content="#0d0d0d" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;900&family=Reem+Kufi:wght@400;500;600;700&family=Scheherazade+New:wght@400;700&family=Lateef&family=Aref+Ruqaa:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&family=El+Messiri:wght@400;700&family=Almarai:wght@400;700;800&family=Harmattan:wght@400;700&family=Mirza:wght@400;700&family=Markazi+Text:wght@400;700&family=Vazirmatn:wght@400;700&family=Changa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&family=Readex+Pro:wght@400;700&family=Qahiri&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jaames/iro@5/dist/iro.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/editor.css" />
+    <link rel="stylesheet" href="css/toolbar.css" />
+  </head>
+  <body class="editor-body">
+
+    <!-- ═══ الهيدر ═══ -->
+    <header class="editor-header">
+      <div class="editor-header-left">
+        <a class="editor-icon-btn" href="index.html" aria-label="رجوع">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+        </a>
+        <input type="text" class="editor-title-input" id="design-title" value="تصميم بدون عنوان" />
+      </div>
+
+      <div class="editor-header-center">
+        <button class="editor-icon-btn" id="undo-btn" aria-label="تراجع" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 14 4 9 9 4"></polyline>
+            <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
+          </svg>
+        </button>
+        <button class="editor-icon-btn" id="redo-btn" aria-label="إعادة" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 14 20 9 15 4"></polyline>
+            <path d="M4 20v-7a4 4 0 0 1 4-4h12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="editor-header-right">
+        <button class="editor-icon-btn" id="save-btn" aria-label="حفظ">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+          </svg>
+        </button>
+        <button class="editor-icon-btn primary" id="export-btn" aria-label="تصدير">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ═══ مساحة العمل ═══ -->
+    <main class="editor-main">
+      <div class="canvas-wrapper" id="canvas-wrapper">
+        <div class="canvas-stage" id="canvas-stage">
+          <canvas id="main-canvas"></canvas>
+        </div>
+      </div>
+    </main>
+
+    <!-- ═══ Toast ═══ -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- ═══ Scripts ═══ -->
+    <script src="js/core/state.js"></script>
+    <script src="js/core/fonts.js"></script>
+    <script src="js/core/colors.js"></script>
+    <script src="js/core/renderer.js"></script>
+
+    <script src="js/toolbar/toolbar.js"></script>
+
+    <script src="js/editor.js"></script>
+  </body>
+  </html>
