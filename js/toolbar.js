@@ -1,6 +1,6 @@
 /* =========================================
-   NoorKit — Toolbar System (v2)
-   يدعم: القرآن + النص
+   NoorKit — Toolbar System (v3)
+   يدعم: القرآن + النص + الصور
    ========================================= */
 
 window.NoorToolbar = {
@@ -43,9 +43,9 @@ window.NoorToolbar = {
 
     image: [
       { id: "image-upload", label: "رفع", svg: `<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line>` },
-      { id: "image-fetch", label: "جلب", svg: `<circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>` },
       { id: "image-rotate", label: "تدوير", svg: `<polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>` },
       { id: "image-opacity", label: "شفافية", svg: `<circle cx="12" cy="12" r="9" opacity="0.5"></circle><circle cx="12" cy="12" r="5"></circle>` },
+      { id: "image-delete", label: "حذف", svg: `<polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>` },
     ],
 
     elements: [
@@ -281,6 +281,15 @@ window.NoorToolbar = {
       html = NoorTextTools.renderContent(toolId);
     }
 
+    /* ═══ الصور ═══ */
+    if (
+      !html &&
+      typeof NoorImageTools !== "undefined" &&
+      ["image-upload", "image-rotate", "image-opacity", "image-delete"].includes(toolId)
+    ) {
+      html = NoorImageTools.renderContent(toolId);
+    }
+
     if (!html) {
       html = `<p style="padding:20px;text-align:center;color:#666;font-size:13px;">قريباً</p>`;
     }
@@ -297,6 +306,13 @@ window.NoorToolbar = {
       ["font", "size", "color", "align", "line-height", "move", "edit-text"].includes(toolId)
     ) {
       NoorTextTools.bindContent(toolId);
+    }
+
+    if (
+      typeof NoorImageTools !== "undefined" &&
+      ["image-upload", "image-rotate", "image-opacity", "image-delete"].includes(toolId)
+    ) {
+      NoorImageTools.bindContent(toolId);
     }
 
     this.positionMiniSheet();
