@@ -1,6 +1,6 @@
 /* =========================================
-   NoorKit — Selection System (v3)
-   مربع تحديد يدور مع العنصر + مقابض في الزوايا
+   NoorKit — Selection System (v5)
+   تحديد فوري + تدوير دقيق
    ========================================= */
 
 window.NoorSelection = {
@@ -147,7 +147,7 @@ window.NoorSelection = {
     const scale = NoorRenderer.previewScale;
     const d = NoorState.design;
 
-    let x, y, w, h, rotation = 0;
+    let x, y, w, h, rotation = 0, originX = 0, originY = 0;
 
     if (this.activeType === "text") {
       const padding = Math.round(d.width * 0.1);
@@ -168,6 +168,10 @@ window.NoorSelection = {
       x = cx - w / 2;
       y = cy - h / 2;
       rotation = this.active.rotation || 0;
+      
+      // مركز التدوير هو x, y للآية
+      originX = (cx - x) * scale;
+      originY = (cy - y) * scale;
 
     } else if (this.activeType === "image") {
       x = this.active.x;
@@ -175,6 +179,10 @@ window.NoorSelection = {
       w = this.active.width;
       h = this.active.height;
       rotation = this.active.rotation || 0;
+      
+      // مركز الصورة
+      originX = (w / 2) * scale;
+      originY = (h / 2) * scale;
 
     } else if (this.activeType === "element") {
       const size = this.active.size || 60;
@@ -183,6 +191,9 @@ window.NoorSelection = {
       w = size;
       h = size;
       rotation = this.active.rotation || 0;
+      
+      originX = (w / 2) * scale;
+      originY = (h / 2) * scale;
     }
 
     const left = rect.left + x * scale;
@@ -197,18 +208,16 @@ window.NoorSelection = {
 
     const border = document.getElementById("nk-sel-border");
     if (border) {
-      border.style.transformOrigin = "center center";
+      border.style.transformOrigin = `${originX}px ${originY}px`;
       border.style.transform = `rotate(${rotation}deg)`;
     }
 
-    this.positionHandles(width, height, rotation);
+    this.positionHandles(width, height, rotation, originX, originY);
   },
 
-  positionHandles(w, h, rotation) {
+  positionHandles(w, h, rotation, ox, oy) {
     const rad = (rotation * Math.PI) / 180;
-    const cx = w / 2;
-    const cy = h / 2;
-
+    
     const corners = [
       { id: "delete", x: 0, y: 0 },
       { id: "rotate", x: w, y: 0 },
@@ -219,11 +228,12 @@ window.NoorSelection = {
       const el = document.getElementById(`nk-sel-${corner.id}`);
       if (!el) return;
 
-      const dx = corner.x - cx;
-      const dy = corner.y - cy;
+      // حساب الموقع مع التدوير حول النقطة (ox, oy)
+      const dx = corner.x - ox;
+      const dy = corner.y - oy;
       
-      const rx = dx * Math.cos(rad) - dy * Math.sin(rad) + cx;
-      const ry = dx * Math.sin(rad) + dy * Math.cos(rad) + cy;
+      const rx = dx * Math.cos(rad) - dy * Math.sin(rad) + ox;
+      const ry = dx * Math.sin(rad) + dy * Math.cos(rad) + oy;
 
       el.style.left = (rx - 16) + "px";
       el.style.top = (ry - 16) + "px";
@@ -252,7 +262,6 @@ window.NoorSelection = {
       if (!this.active) return;
       
       this.isRotating = true;
-      
       document.addEventListener("pointermove", this.onRotateMove);
       document.addEventListener("pointerup", this.onRotateEnd);
     });
@@ -289,7 +298,9 @@ window.NoorSelection = {
     const rotation = Math.round(angle + 90);
 
     NoorSelection.active.rotation = rotation;
-    NoorRenderer.debouncedRender();
+    
+    // استخدام render المباشر بدلاً من debounce ليكون سريعاً جداً
+    NoorRenderer.render(); 
     NoorSelection.updateOverlay();
   },
 
@@ -319,7 +330,8 @@ window.NoorSelection = {
       NoorSelection.active.size = Math.max(20, Math.min(300, NoorSelection.startVal + delta));
     }
 
-    NoorRenderer.debouncedRender();
+    // استخدام render المباشر
+    NoorRenderer.render();
     NoorSelection.updateOverlay();
   },
 
@@ -353,7 +365,8 @@ window.NoorSelection = {
     NoorSelection.active.x = NoorSelection.startVal.x + dx;
     NoorSelection.active.y = NoorSelection.startVal.y + dy;
 
-    NoorRenderer.debouncedRender();
+    // استخدام render المباشر
+    NoorRenderer.render();
     NoorSelection.updateOverlay();
   },
 
