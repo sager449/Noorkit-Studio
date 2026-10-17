@@ -1,6 +1,6 @@
 /* =========================================
-   NoorKit — Video.css (v5)
-   تصميم فاتح + أزرار ذهبية
+   NoorKit — Video.css (v6)
+   تصميم UTool الاحترافي
    ========================================= */
 
 .video-body {
@@ -8,69 +8,58 @@
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
-  background: #f5f5f5;
+  background: #ffffff;
   overflow: hidden;
   color: #111111;
 }
 
-/* ═══ الهيدر ⚪ ═══ */
+/* ═══ الهيدر الأبيض النظيف ═══ */
 .video-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
+  padding: 10px 16px;
   background: #ffffff;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: none;
   flex-shrink: 0;
   height: 56px;
   z-index: 100;
 }
 
-.video-header-left,
-.video-header-right {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.video-header-left { flex: 1; min-width: 0; }
 .video-header-right { flex-shrink: 0; }
+.video-header-left { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.video-header-center { flex: 1; display: flex; justify-content: center; }
 
-/* ═══ الأزرار — ذهبية عند التفعيل 🟡 ═══ */
-.video-icon-btn {
-  width: 36px;
-  height: 36px;
+.video-header-btn {
   background: #f0f0f0;
-  color: #333333;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  border-radius: 50%;
-  border: none;
+  text-decoration: none;
 }
-.video-icon-btn:active { background: #e0e0e0; }
-.video-icon-btn.primary { 
-  background: #c9a227; /* 🟡 ذهبي */
-  color: #ffffff; 
+.video-header-btn:active { background: #e0e0e0; }
+.video-header-btn[href="index.html"] { 
+  background: transparent; 
+  font-size: 20px; 
+  padding: 8px; 
 }
-.video-icon-btn.primary:active { background: #b8911f; }
-.video-icon-btn svg { width: 18px; height: 18px; }
 
-/* ═══ حقل العنوان ═══ */
-.video-title-input {
-  flex: 1;
-  min-width: 0;
-  padding: 8px 10px;
-  background: transparent;
-  color: #111111;
-  font-size: 14px;
-  font-weight: 700;
-  border: none;
-  outline: none;
-  text-align: center;
+.video-header-title {
+  font-size: 13px;
+  font-weight: 800;
+  background: #f0f0f0;
+  padding: 6px 16px;
+  border-radius: 20px;
+  color: #333;
 }
-.video-title-input::placeholder { color: #999; }
 
 /* ═══ مساحة العمل ═══ */
 .video-main {
@@ -79,6 +68,7 @@
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  background: #f9f9f9;
 }
 
 /* ═══ المعاينة ═══ */
@@ -87,9 +77,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 20px;
   overflow: hidden;
-  background: #f5f5f5;
 }
 
 .video-preview {
@@ -99,7 +88,7 @@
   background: #1a1a1a;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .video-bg {
@@ -132,9 +121,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 56px;
-  height: 56px;
-  background: rgba(255, 255, 255, 0.9);
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.85);
   color: #111111;
   border-radius: 50%;
   border: none;
@@ -144,51 +133,69 @@
   cursor: pointer;
   z-index: 10;
   transition: all 0.2s;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 .video-play-btn:active {
   transform: translate(-50%, -50%) scale(0.9);
-  background: #c9a227;
-  color: #ffffff;
-}
-.video-play-btn svg { width: 24px; height: 24px; margin-right: -2px; }
-
-.video-progress-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.2);
-  z-index: 5;
-}
-.video-progress {
-  height: 100%;
-  width: 0%;
-  background: #c9a227; /* 🟡 ذهبي */
-  transition: width 0.1s linear;
-}
-
-/* ═══ الجدول الزمني (Timeline) — فاتح ═══ */
-.video-timeline {
-  height: 140px;
   background: #ffffff;
-  border-top: 1px solid #e5e5e5;
+}
+.video-play-btn svg { width: 26px; height: 26px; margin-right: -2px; }
+
+/* ═══ أدوات المعاينة (أيقونات رمادية) ═══ */
+.video-preview-tools {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  padding: 0 16px 12px;
+  gap: 16px;
+}
+
+.video-preview-tool {
+  background: transparent;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+.video-preview-tool svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2.2; fill: none; }
+.video-preview-tools-spacer { flex: 1; }
+
+/* ═══ الجدول الزمني (Timeline) ═══ */
+.video-timeline-section {
+  padding: 0 16px;
+  margin-bottom: 12px;
+}
+
+.video-timeline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.video-timeline-time {
+  font-size: 12px;
+  font-weight: 700;
+  color: #333;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+}
+
+.video-timeline {
   position: relative;
-  flex-shrink: 0;
-  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 8px;
   padding: 8px 0;
 }
 
 .video-playhead {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: -8px;
+  bottom: -8px;
   width: 2px;
-  background: #111111;
-  left: 20px;
+  background: #111;
+  left: 30px;
   z-index: 10;
   pointer-events: none;
 }
@@ -199,42 +206,30 @@
   left: -5px;
   width: 12px;
   height: 12px;
-  background: #111111;
+  background: #111;
   border-radius: 50%;
 }
 
 .video-track {
   display: flex;
   align-items: center;
-  height: 40px;
-  margin-bottom: 4px;
-  padding: 0 8px;
+  height: 44px;
+  margin-bottom: 8px;
+  gap: 8px;
 }
 
-.video-track-label {
-  width: 36px;
-  height: 36px;
-  background: #f0f0f0;
-  color: #666;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  flex-shrink: 0;
-  margin-left: 8px;
-}
-.video-track-label svg { width: 18px; height: 18px; }
+.video-track:last-child { margin-bottom: 0; }
 
 .video-track-content {
   flex: 1;
   height: 100%;
-  background: #f8f8f8;
+  background: #f5f5f5;
   border: 1px dashed #d4d4d4;
-  border-radius: 6px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
-  padding: 0 12px;
-  color: #888;
+  justify-content: center;
+  color: #999;
   font-size: 12px;
   font-weight: 600;
   overflow: hidden;
@@ -243,48 +238,57 @@
 
 .video-track-content.has-content {
   border-style: solid;
-  border-color: #c9a227; /* 🟡 ذهبي */
-  background: #fdf9ed; /* خلفية كريمية */
+  border-color: #c9a227;
+  background: #fdf9ed;
   color: #333;
 }
 
-.video-track-empty {
-  width: 100%;
-  text-align: center;
+.video-track-btn {
+  width: 40px;
+  height: 40px;
+  background: #c9a227;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
+.video-track-btn:active { background: #b8911f; }
+.video-track-btn svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2.5; }
 
-/* ═══ شريط الأدوات — فاتح ═══ */
+/* ═══ شريط الأدوات السفلي ═══ */
 .video-toolbar {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  padding: 8px;
+  justify-content: space-between;
+  padding: 12px 16px 20px;
   background: #ffffff;
-  border-top: 1px solid #e5e5e5;
   flex-shrink: 0;
 }
 
-.video-tool-btn {
+.video-toolbar-btn {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 8px 4px;
+  gap: 6px;
   background: transparent;
-  color: #666666;
+  color: #666;
   font-size: 10px;
   font-weight: 700;
   cursor: pointer;
-  border-radius: 8px;
   border: none;
-  transition: all 0.15s;
+  padding: 8px 4px;
+  border-radius: 8px;
 }
-.video-tool-btn:active, .video-tool-btn.active {
-  color: #c9a227; /* 🟡 ذهبي */
+.video-toolbar-btn:active, .video-toolbar-btn.active {
+  color: #c9a227;
 }
-.video-tool-btn svg {
+.video-toolbar-btn svg {
   width: 22px;
   height: 22px;
   stroke: currentColor;
@@ -344,4 +348,4 @@
   padding: 16px;
   overflow-y: auto;
   color: #111111;
-                     }
+   }
