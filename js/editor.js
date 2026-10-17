@@ -54,29 +54,28 @@
       console.error("Editor init failed:", err);
     }
   }
+   async function loadDesignFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  if (!id) return;
 
-  /* ═══════════════════════════════════════════════
-     تحميل تصميم من الرابط
-     ═══════════════════════════════════════════════ */
-  async function loadDesignFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-    if (!id) return;
-
-    try {
-      if (typeof NoorDB === "undefined") return;
-
-      const project = await NoorDB.get(id);
-      if (project && project.design) {
-        NoorState.load(project.design);
-        const titleInput = document.getElementById("design-title");
-        if (titleInput) titleInput.value = project.design.title || "تصميم بدون عنوان";
-        showToast("تم تحميل التصميم");
+  try {
+    if (typeof NoorDB === "undefined") return;
+    const project = await NoorDB.get(id);
+    if (project && project.design) {
+      NoorState.load(project.design);
+      NoorState.design.id = parseInt(id); // ربط الـ ID بالتصميم الحالي
+      
+      const titleInput = document.getElementById("design-title");
+      if (titleInput) {
+        titleInput.value = project.design.title || "تصميم بدون عنوان";
       }
-    } catch (err) {
-      console.error("loadDesign failed:", err);
+      showToast("تم تحميل التصميم");
     }
+  } catch (err) {
+    console.error("loadDesign failed:", err);
   }
+   }
 
   /* ═══════════════════════════════════════════════
      ربط الهيدر
