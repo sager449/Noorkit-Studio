@@ -1,24 +1,37 @@
 /* ═══════════════════════════════════════════════
-   NoorKit — Style.css (أحمر)
+   NoorKit — Style.css (أحمر شامل)
    ═══════════════════════════════════════════════ */
 
 :root {
-  /* ألوان رئيسية */
-  --nk-bg-primary:     #0d0d0d;
-  --nk-bg-secondary:   #141414;
-  --nk-bg-card:        #1a1a1a;
-  --nk-bg-btn:         #2a2a2a;
-  --nk-bg-btn-hover:   #3a3a3a;
-  --nk-border:         #2a2a2a;
-  --nk-text-primary:   #ffffff;
-  --nk-text-secondary: #b0b0b0;
-  --nk-text-muted:     #888888;
-  --nk-text-dark:      #555555;
+  /* 🔴 ألوان حمراء - كل المستويات */
+  --nk-red-50:   #fef2f2;
+  --nk-red-100:  #fee2e2;
+  --nk-red-200:  #fecaca;
+  --nk-red-500:  #ef4444;
+  --nk-red-600:  #dc2626;
+  --nk-red-700:  #b91c1c;
+  --nk-red-800:  #991b1b;
+  --nk-red-900:  #7f1d1d;
+  --nk-red-950:  #4c0a0a;
 
-  /* 🔴 اللون الأساسي الجديد */
-  --nk-accent:         #b91c1c;
-  --nk-accent-hover:   #dc2626;
-  --nk-accent-light:   #ef4444;
+  /* الخلفيات */
+  --nk-bg-primary:     #4c0a0a;
+  --nk-bg-secondary:   #5c1010;
+  --nk-bg-card:        #6b1414;
+  --nk-bg-btn:         #7f1d1d;
+  --nk-bg-btn-hover:   #991b1b;
+  --nk-border:         #6b1414;
+
+  /* النصوص */
+  --nk-text-primary:   #ffffff;
+  --nk-text-secondary: #fecaca;
+  --nk-text-muted:     #fca5a5;
+  --nk-text-dark:      #b91c1c;
+
+  /* الأساسي */
+  --nk-accent:         #dc2626;
+  --nk-accent-hover:   #ef4444;
+  --nk-accent-light:   #f87171;
   --nk-accent-dark:    #7f1d1d;
 
   /* الذهبي */
@@ -93,8 +106,8 @@ textarea {
   bottom: 100px;
   left: 50%;
   transform: translateX(-50%) translateY(20px);
-  background: var(--nk-accent);
-  color: #ffffff;
+  background: #ffffff;
+  color: var(--nk-accent-dark);
   padding: 12px 24px;
   font-size: 13px;
   font-weight: 700;
@@ -105,7 +118,7 @@ textarea {
   max-width: 80%;
   text-align: center;
   font-family: inherit;
-  box-shadow: 0 4px 16px rgba(185, 28, 28, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .toast.show {
@@ -133,14 +146,8 @@ textarea {
 }
 
 /* ═══ أدوات مساعدة ═══ */
-.hidden {
-  display: none !important;
-}
-
-.invisible {
-  visibility: hidden !important;
-}
-
+.hidden { display: none !important; }
+.invisible { visibility: hidden !important; }
 .no-select {
   user-select: none;
   -webkit-user-select: none;
