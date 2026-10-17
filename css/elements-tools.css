@@ -1,0 +1,60 @@
+/* =========================================
+   NoorKit — Elements Tools CSS
+   ========================================= */
+
+/* ═══ شريط العناصر ═══ */
+.nk-elem-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nk-elem-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.nk-elem-chip {
+  flex: 0 0 auto;
+  width: 72px;
+  height: 72px;
+  background: #1f1f1f;
+  border: 2px solid #2a2a2a;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px;
+  transition: border-color 0.15s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
+}
+
+.nk-elem-chip:active {
+  border-color: #555;
+  background: #2a2a2a;
+}
+
+.nk-elem-symbol {
+  font-size: 24px;
+  line-height: 1;
+  color: #c9a227;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+}
+
+.nk-elem-chip small {
+  font-size: 9px;
+  font-weight: 700;
+  color: #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  }
