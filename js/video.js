@@ -1,6 +1,6 @@
 /* =========================================
-   NoorKit — Video Editor (v3) - Part 1
-   حالة + تهيئة + لوحة الخيارات
+   NoorKit — Video Editor (v4) - Part 1
+   التهيئة + لوحة الخيارات
    ========================================= */
 
 window.NoorVideo = {
@@ -75,9 +75,6 @@ window.NoorVideo = {
     });
   },
 
-  /* ═══════════════════════════════════════════════
-     لوحة الخيارات
-     ═══════════════════════════════════════════════ */
   openPanel(tool) {
     const panel = document.getElementById("video-panel");
     const title = document.getElementById("video-panel-title");
@@ -92,22 +89,22 @@ window.NoorVideo = {
       html = `
         <div style="display:flex;flex-direction:column;gap:10px;">
           <input type="file" id="video-audio-input" accept="audio/*" style="display:none;" />
-          <button id="video-audio-btn" style="background:#b91c1c;color:#fff;border:none;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">
+          <button id="video-audio-btn" style="background:#c9a227;color:#fff;border:none;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">
             🎵 اختيار ملف صوتي
           </button>
-          ${this.audioFile ? `<p style="font-size:12px;color:#fecaca;text-align:center;">الملف: ${this.audioFile.name}</p>` : ""}
+          ${this.audioFile ? `<p style="font-size:12px;color:#666;text-align:center;">الملف: ${this.audioFile.name}</p>` : ""}
           
-          <hr style="border-color:#333;margin:8px 0;">
+          <hr style="border-color:#eee;margin:8px 0;">
           
-          <p style="font-size:11px;color:#888;text-align:center;margin:0;">أو من فيديو</p>
+          <p style="font-size:11px;color:#999;text-align:center;margin:0;">أو من فيديو</p>
           
           <input type="file" id="video-extract-input" accept="video/*" style="display:none;" />
-          <button id="video-extract-btn" style="background:#2a2a2a;color:#fff;border:none;padding:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">
+          <button id="video-extract-btn" style="background:#f0f0f0;color:#333;border:none;padding:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">
             🎬 استخراج صوت من فيديو
           </button>
           
           <input type="file" id="video-remove-audio-input" accept="video/*" style="display:none;" />
-          <button id="video-remove-audio-btn" style="background:#2a2a2a;color:#fff;border:none;padding:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">
+          <button id="video-remove-audio-btn" style="background:#f0f0f0;color:#333;border:none;padding:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">
             🔇 إزالة الصوت من فيديو
           </button>
         </div>
@@ -120,10 +117,10 @@ window.NoorVideo = {
       html = `
         <div style="text-align:center;">
           <input type="file" id="video-image-input" accept="image/*" style="display:none;" />
-          <button id="video-image-btn" style="background:#b91c1c;color:#fff;border:none;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">
+          <button id="video-image-btn" style="background:#c9a227;color:#fff;border:none;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">
             🖼️ اختيار صورة خلفية
           </button>
-          ${this.state.imageUrl ? `<button id="video-image-remove" style="margin-top:12px;background:#2a2a2a;color:#fff;border:none;padding:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">إزالة الصورة</button>` : ""}
+          ${this.state.imageUrl ? `<button id="video-image-remove" style="margin-top:12px;background:#f0f0f0;color:#333;border:none;padding:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">إزالة الصورة</button>` : ""}
         </div>
       `;
     }
@@ -133,13 +130,13 @@ window.NoorVideo = {
       title.textContent = "النص";
       html = `
         <div>
-          <label style="font-size:12px;font-weight:700;color:#fecaca;display:block;margin-bottom:6px;">النص</label>
-          <textarea id="video-text-input" style="width:100%;padding:10px;background:#2a2a2a;color:#fff;border:1px solid #333;font-family:inherit;font-size:14px;font-weight:600;resize:none;border-radius:8px;box-sizing:border-box;min-height:80px;">${this.state.text}</textarea>
+          <label style="font-size:12px;font-weight:700;color:#666;display:block;margin-bottom:6px;">النص</label>
+          <textarea id="video-text-input" style="width:100%;padding:10px;background:#f0f0f0;color:#111;border:1px solid #ddd;font-family:inherit;font-size:14px;font-weight:600;resize:none;border-radius:8px;box-sizing:border-box;min-height:80px;">${this.state.text}</textarea>
           
-          <label style="font-size:12px;font-weight:700;color:#fecaca;display:block;margin:12px 0 6px;">حجم الخط: <span id="video-text-size-val">${this.state.textSize}</span></label>
+          <label style="font-size:12px;font-weight:700;color:#666;display:block;margin:12px 0 6px;">حجم الخط: <span id="video-text-size-val">${this.state.textSize}</span></label>
           <input type="range" id="video-text-size" min="16" max="60" value="${this.state.textSize}" style="width:100%;">
           
-          <label style="font-size:12px;font-weight:700;color:#fecaca;display:block;margin:12px 0 6px;">اللون</label>
+          <label style="font-size:12px;font-weight:700;color:#666;display:block;margin:12px 0 6px;">اللون</label>
           <input type="color" id="video-text-color" value="${this.state.textColor}" style="width:100%;height:40px;background:transparent;border:none;border-radius:8px;">
         </div>
       `;
@@ -150,14 +147,14 @@ window.NoorVideo = {
       title.textContent = "الإعدادات";
       html = `
         <div>
-          <label style="font-size:12px;font-weight:700;color:#fecaca;display:block;margin-bottom:6px;">جودة التصدير</label>
-          <select id="video-quality" style="width:100%;padding:12px;background:#2a2a2a;color:#fff;border:none;font-family:inherit;font-size:14px;font-weight:700;border-radius:8px;margin-bottom:12px;">
+          <label style="font-size:12px;font-weight:700;color:#666;display:block;margin-bottom:6px;">جودة التصدير</label>
+          <select id="video-quality" style="width:100%;padding:12px;background:#f0f0f0;color:#111;border:none;font-family:inherit;font-size:14px;font-weight:700;border-radius:8px;margin-bottom:12px;">
             <option value="720p" ${this.state.quality === "720p" ? "selected" : ""}>720p — سريع</option>
             <option value="1080p" ${this.state.quality === "1080p" ? "selected" : ""}>1080p — متوسط</option>
             <option value="4k" ${this.state.quality === "4k" ? "selected" : ""}>4K — احترافي (أبطأ)</option>
           </select>
           
-          <p style="font-size:11px;color:#888;line-height:1.6;">
+          <p style="font-size:11px;color:#999;line-height:1.6;">
             لإنشاء الفيديو: ارفع صورة، ارفع صوتاً، ثم اضغط "تصدير" من الأعلى.
           </p>
         </div>
@@ -339,7 +336,7 @@ window.NoorVideo = {
   },
 
   /* ═══════════════════════════════════════════════
-     شاشة التقدم
+     شاشة التقدم (Modal)
      ═══════════════════════════════════════════════ */
   showProgressModal(title) {
     let modal = document.getElementById("video-progress-modal");
@@ -359,13 +356,13 @@ window.NoorVideo = {
         padding: 20px;
       `;
       modal.innerHTML = `
-        <div style="background:#1a1a1a;padding:30px;border-radius:16px;width:100%;max-width:320px;text-align:center;border:2px solid #b91c1c;">
-          <h3 id="video-progress-title" style="color:#fff;font-size:16px;margin:0 0 20px;">جاري المعالجة...</h3>
-          <div style="width:100%;height:8px;background:#2a2a2a;border-radius:4px;overflow:hidden;">
-            <div id="video-progress-bar" style="height:100%;width:0%;background:#b91c1c;transition:width 0.3s;"></div>
+        <div style="background:#ffffff;padding:30px;border-radius:16px;width:100%;max-width:320px;text-align:center;">
+          <h3 id="video-progress-title" style="color:#111;font-size:16px;margin:0 0 20px;">جاري المعالجة...</h3>
+          <div style="width:100%;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden;">
+            <div id="video-progress-bar" style="height:100%;width:0%;background:#c9a227;transition:width 0.3s;"></div>
           </div>
-          <p id="video-progress-percent" style="color:#fecaca;font-size:12px;margin:12px 0 0;">0%</p>
-          <p style="color:#888;font-size:11px;margin:16px 0 0;line-height:1.5;">قد يستغرق 1-3 دقائق حسب حجم الفيديو</p>
+          <p id="video-progress-percent" style="color:#666;font-size:12px;margin:12px 0 0;">0%</p>
+          <p style="color:#999;font-size:11px;margin:16px 0 0;line-height:1.5;">قد يستغرق 1-3 دقائق حسب حجم الفيديو</p>
         </div>
       `;
       document.body.appendChild(modal);
@@ -567,7 +564,6 @@ window.NoorVideo = {
       });
 
       this.exportedBlob = videoBlob;
-
       NoorVideoExporter.download(videoBlob, `${this.state.title || "video"}.mp4`);
 
       this.closeProgressModal();
