@@ -1,11 +1,11 @@
 /* =========================================
-   NoorKit — DB (v1)
-   قاعدة بيانات محلية (IndexedDB)
+   NoorKit — DB (v2)
+   قاعدة بيانات محلية (IndexedDB) - إصلاح الحفظ
    ========================================= */
 
 window.NoorDB = {
   DB_NAME: "noorkit",
-  DB_VERSION: 1,
+  DB_VERSION: 2,
   STORE_NAME: "projects",
   db: null,
 
@@ -20,14 +20,12 @@ window.NoorDB = {
 
       req.onupgradeneeded = (e) => {
         const db = e.target.result;
-
         if (!db.objectStoreNames.contains(this.STORE_NAME)) {
           const store = db.createObjectStore(this.STORE_NAME, {
             keyPath: "id",
             autoIncrement: true,
           });
           store.createIndex("updatedAt", "updatedAt", { unique: false });
-          store.createIndex("title", "design.title", { unique: false });
         }
       };
 
@@ -57,7 +55,7 @@ window.NoorDB = {
         updatedAt: Date.now(),
       };
 
-      /* إذا كان هناك id — تحديث */
+      /* إذا كان هناك id موجود — نحدثه */
       if (design.id) {
         project.id = design.id;
       }
@@ -68,7 +66,7 @@ window.NoorDB = {
         const req = store.put(project);
 
         req.onsuccess = () => {
-          /* حفظ الـ id في التصميم */
+          /* حفظ الـ ID في التصميم الحالي */
           if (!design.id && req.result) {
             design.id = req.result;
           }
@@ -124,7 +122,6 @@ window.NoorDB = {
 
         req.onsuccess = () => {
           const list = req.result || [];
-          /* ترتيب — الأحدث أولاً */
           list.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
           resolve(list);
         };
@@ -158,47 +155,6 @@ window.NoorDB = {
     } catch (err) {
       console.error("NoorDB.delete failed:", err);
       return false;
-    }
-  },
-
-  /* ═══════════════════════════════════════════════
-     حذف كل المشاريع
-     ═══════════════════════════════════════════════ */
-  async clear() {
-    try {
-      const db = await this.open();
-
-      return new Promise((resolve, reject) => {
-        const tx = db.transaction(this.STORE_NAME, "readwrite");
-        const store = tx.objectStore(this.STORE_NAME);
-        const req = store.clear();
-
-        req.onsuccess = () => resolve(true);
-        req.onerror = () => reject(req.error);
-      });
-    } catch (err) {
-      console.error("NoorDB.clear failed:", err);
-      return false;
-    }
-  },
-
-  /* ═══════════════════════════════════════════════
-     عدد المشاريع
-     ═══════════════════════════════════════════════ */
-  async count() {
-    try {
-      const db = await this.open();
-
-      return new Promise((resolve, reject) => {
-        const tx = db.transaction(this.STORE_NAME, "readonly");
-        const store = tx.objectStore(this.STORE_NAME);
-        const req = store.count();
-
-        req.onsuccess = () => resolve(req.result || 0);
-        req.onerror = () => reject(req.error);
-      });
-    } catch (err) {
-      return 0;
     }
   },
 };
