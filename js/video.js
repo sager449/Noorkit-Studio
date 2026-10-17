@@ -1,6 +1,6 @@
 /* =========================================
-   NoorKit — Video Editor (v2)
-   منطق يعمل مع CapCut UI
+   NoorKit — Video Editor (v3) - Part 1
+   حالة + تهيئة + لوحة الخيارات
    ========================================= */
 
 window.NoorVideo = {
@@ -9,6 +9,7 @@ window.NoorVideo = {
   audioEl: null,
   isPlaying: false,
   activeTool: null,
+  exportedBlob: null,
 
   state: {
     title: "فيديو بدون عنوان",
@@ -19,6 +20,7 @@ window.NoorVideo = {
     audioUrl: null,
     audioName: "",
     duration: 0,
+    quality: "1080p",
   },
 
   init() {
@@ -73,6 +75,9 @@ window.NoorVideo = {
     });
   },
 
+  /* ═══════════════════════════════════════════════
+     لوحة الخيارات
+     ═══════════════════════════════════════════════ */
   openPanel(tool) {
     const panel = document.getElementById("video-panel");
     const title = document.getElementById("video-panel-title");
@@ -81,18 +86,36 @@ window.NoorVideo = {
 
     let html = "";
 
+    /* ═══ الصوت ═══ */
     if (tool === "audio") {
       title.textContent = "الصوت";
       html = `
-        <div style="text-align:center;">
+        <div style="display:flex;flex-direction:column;gap:10px;">
           <input type="file" id="video-audio-input" accept="audio/*" style="display:none;" />
           <button id="video-audio-btn" style="background:#b91c1c;color:#fff;border:none;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">
             🎵 اختيار ملف صوتي
           </button>
-          ${this.audioFile ? `<p style="margin-top:12px;font-size:12px;color:#fecaca;">الملف: ${this.audioFile.name}</p>` : ""}
+          ${this.audioFile ? `<p style="font-size:12px;color:#fecaca;text-align:center;">الملف: ${this.audioFile.name}</p>` : ""}
+          
+          <hr style="border-color:#333;margin:8px 0;">
+          
+          <p style="font-size:11px;color:#888;text-align:center;margin:0;">أو من فيديو</p>
+          
+          <input type="file" id="video-extract-input" accept="video/*" style="display:none;" />
+          <button id="video-extract-btn" style="background:#2a2a2a;color:#fff;border:none;padding:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">
+            🎬 استخراج صوت من فيديو
+          </button>
+          
+          <input type="file" id="video-remove-audio-input" accept="video/*" style="display:none;" />
+          <button id="video-remove-audio-btn" style="background:#2a2a2a;color:#fff;border:none;padding:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">
+            🔇 إزالة الصوت من فيديو
+          </button>
         </div>
       `;
-    } else if (tool === "image") {
+    }
+
+    /* ═══ الصورة ═══ */
+    else if (tool === "image") {
       title.textContent = "الصورة";
       html = `
         <div style="text-align:center;">
@@ -103,26 +126,40 @@ window.NoorVideo = {
           ${this.state.imageUrl ? `<button id="video-image-remove" style="margin-top:12px;background:#2a2a2a;color:#fff;border:none;padding:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;border-radius:8px;">إزالة الصورة</button>` : ""}
         </div>
       `;
-    } else if (tool === "text") {
+    }
+
+    /* ═══ النص ═══ */
+    else if (tool === "text") {
       title.textContent = "النص";
       html = `
         <div>
           <label style="font-size:12px;font-weight:700;color:#fecaca;display:block;margin-bottom:6px;">النص</label>
           <textarea id="video-text-input" style="width:100%;padding:10px;background:#2a2a2a;color:#fff;border:1px solid #333;font-family:inherit;font-size:14px;font-weight:600;resize:none;border-radius:8px;box-sizing:border-box;min-height:80px;">${this.state.text}</textarea>
           
-          <label style="font-size:12px;font-weight:700;color:#fecaca;display:block;margin:12px 0 6px;">حجم الخط</label>
+          <label style="font-size:12px;font-weight:700;color:#fecaca;display:block;margin:12px 0 6px;">حجم الخط: <span id="video-text-size-val">${this.state.textSize}</span></label>
           <input type="range" id="video-text-size" min="16" max="60" value="${this.state.textSize}" style="width:100%;">
           
           <label style="font-size:12px;font-weight:700;color:#fecaca;display:block;margin:12px 0 6px;">اللون</label>
           <input type="color" id="video-text-color" value="${this.state.textColor}" style="width:100%;height:40px;background:transparent;border:none;border-radius:8px;">
         </div>
       `;
-    } else if (tool === "settings") {
+    }
+
+    /* ═══ الإعدادات ═══ */
+    else if (tool === "settings") {
       title.textContent = "الإعدادات";
       html = `
-        <div style="font-size:13px;color:#fecaca;">
-          <p style="margin-bottom:10px;">مدة الفيديو: <span id="video-duration">${this.state.duration}</span> ثانية</p>
-          <p style="font-size:11px;line-height:1.6;">لإنشاء الفيديو: ارفع صورة، ارفع صوتاً، ثم اضغط "تصدير".</p>
+        <div>
+          <label style="font-size:12px;font-weight:700;color:#fecaca;display:block;margin-bottom:6px;">جودة التصدير</label>
+          <select id="video-quality" style="width:100%;padding:12px;background:#2a2a2a;color:#fff;border:none;font-family:inherit;font-size:14px;font-weight:700;border-radius:8px;margin-bottom:12px;">
+            <option value="720p" ${this.state.quality === "720p" ? "selected" : ""}>720p — سريع</option>
+            <option value="1080p" ${this.state.quality === "1080p" ? "selected" : ""}>1080p — متوسط</option>
+            <option value="4k" ${this.state.quality === "4k" ? "selected" : ""}>4K — احترافي (أبطأ)</option>
+          </select>
+          
+          <p style="font-size:11px;color:#888;line-height:1.6;">
+            لإنشاء الفيديو: ارفع صورة، ارفع صوتاً، ثم اضغط "تصدير" من الأعلى.
+          </p>
         </div>
       `;
     }
@@ -133,8 +170,9 @@ window.NoorVideo = {
 
     this.bindPanelContent(tool);
   },
-
+   
   bindPanelContent(tool) {
+    /* ═══ الصوت ═══ */
     if (tool === "audio") {
       const input = document.getElementById("video-audio-input");
       const btn = document.getElementById("video-audio-btn");
@@ -162,17 +200,81 @@ window.NoorVideo = {
         this.audioEl.src = this.audioUrl;
         this.audioEl.addEventListener("loadedmetadata", () => {
           this.state.duration = Math.round(this.audioEl.duration);
-          const dur = document.getElementById("video-duration");
-          if (dur) dur.textContent = this.state.duration;
         });
 
-        /* تحديث الـ Timeline */
         this.updateTimelineTrack("audio", file.name);
         this.showToast("تم تحميل الصوت");
         this.openPanel("audio");
       });
+
+      /* استخراج الصوت من فيديو */
+      const extractInput = document.getElementById("video-extract-input");
+      const extractBtn = document.getElementById("video-extract-btn");
+
+      extractBtn?.addEventListener("click", () => extractInput?.click());
+
+      extractInput?.addEventListener("change", async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        this.showProgressModal("جاري استخراج الصوت...");
+
+        try {
+          const blob = await NoorVideoExporter.extractAudio(file, (msg, p) => {
+            this.updateProgressModal(msg, p);
+          });
+
+          const audioFile = new File([blob], "extracted-audio.mp3", { type: "audio/mp3" });
+          this.audioFile = audioFile;
+          this.audioUrl = URL.createObjectURL(blob);
+          this.state.audioUrl = this.audioUrl;
+
+          if (!this.audioEl) {
+            this.audioEl = new Audio();
+            this.audioEl.addEventListener("timeupdate", () => this.updateProgress());
+          }
+          this.audioEl.src = this.audioUrl;
+
+          this.updateTimelineTrack("audio", "صوت مستخرج");
+          this.closeProgressModal();
+          this.showToast("تم استخراج الصوت");
+          this.openPanel("audio");
+        } catch (err) {
+          console.error("Extract failed:", err);
+          this.closeProgressModal();
+          this.showToast("تعذر الاستخراج");
+        }
+      });
+
+      /* إزالة الصوت من فيديو */
+      const removeInput = document.getElementById("video-remove-audio-input");
+      const removeBtn = document.getElementById("video-remove-audio-btn");
+
+      removeBtn?.addEventListener("click", () => removeInput?.click());
+
+      removeInput?.addEventListener("change", async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        this.showProgressModal("جاري إزالة الصوت...");
+
+        try {
+          const blob = await NoorVideoExporter.removeAudio(file, (msg, p) => {
+            this.updateProgressModal(msg, p);
+          });
+
+          NoorVideoExporter.download(blob, "no-audio-video.mp4");
+          this.closeProgressModal();
+          this.showToast("تم تنزيل الفيديو بدون صوت");
+        } catch (err) {
+          console.error("Remove failed:", err);
+          this.closeProgressModal();
+          this.showToast("تعذر الإزالة");
+        }
+      });
     }
 
+    /* ═══ الصورة ═══ */
     if (tool === "image") {
       const input = document.getElementById("video-image-input");
       const btn = document.getElementById("video-image-btn");
@@ -202,9 +304,11 @@ window.NoorVideo = {
       });
     }
 
+    /* ═══ النص ═══ */
     if (tool === "text") {
       const textInput = document.getElementById("video-text-input");
       const sizeInput = document.getElementById("video-text-size");
+      const sizeVal = document.getElementById("video-text-size-val");
       const colorInput = document.getElementById("video-text-color");
 
       textInput?.addEventListener("input", () => {
@@ -215,6 +319,7 @@ window.NoorVideo = {
 
       sizeInput?.addEventListener("input", () => {
         this.state.textSize = parseInt(sizeInput.value);
+        if (sizeVal) sizeVal.textContent = this.state.textSize;
         this.updatePreview();
       });
 
@@ -223,8 +328,69 @@ window.NoorVideo = {
         this.updatePreview();
       });
     }
+
+    /* ═══ الإعدادات ═══ */
+    if (tool === "settings") {
+      const qualitySelect = document.getElementById("video-quality");
+      qualitySelect?.addEventListener("change", () => {
+        this.state.quality = qualitySelect.value;
+      });
+    }
   },
 
+  /* ═══════════════════════════════════════════════
+     شاشة التقدم
+     ═══════════════════════════════════════════════ */
+  showProgressModal(title) {
+    let modal = document.getElementById("video-progress-modal");
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = "video-progress-modal";
+      modal.style.cssText = `
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background: rgba(0,0,0,0.9);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+      `;
+      modal.innerHTML = `
+        <div style="background:#1a1a1a;padding:30px;border-radius:16px;width:100%;max-width:320px;text-align:center;border:2px solid #b91c1c;">
+          <h3 id="video-progress-title" style="color:#fff;font-size:16px;margin:0 0 20px;">جاري المعالجة...</h3>
+          <div style="width:100%;height:8px;background:#2a2a2a;border-radius:4px;overflow:hidden;">
+            <div id="video-progress-bar" style="height:100%;width:0%;background:#b91c1c;transition:width 0.3s;"></div>
+          </div>
+          <p id="video-progress-percent" style="color:#fecaca;font-size:12px;margin:12px 0 0;">0%</p>
+          <p style="color:#888;font-size:11px;margin:16px 0 0;line-height:1.5;">قد يستغرق 1-3 دقائق حسب حجم الفيديو</p>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+    modal.hidden = false;
+    document.getElementById("video-progress-title").textContent = title;
+  },
+
+  updateProgressModal(message, percent) {
+    const title = document.getElementById("video-progress-title");
+    const bar = document.getElementById("video-progress-bar");
+    const pct = document.getElementById("video-progress-percent");
+    if (title) title.textContent = message;
+    if (bar) bar.style.width = percent + "%";
+    if (pct) pct.textContent = percent + "%";
+  },
+
+  closeProgressModal() {
+    const modal = document.getElementById("video-progress-modal");
+    if (modal) modal.hidden = true;
+  },
+
+  /* ═══════════════════════════════════════════════
+     تحديث الـ Timeline
+     ═══════════════════════════════════════════════ */
   updateTimelineTrack(type, content) {
     const track = document.getElementById(`track-${type}`);
     if (!track) return;
@@ -291,7 +457,7 @@ window.NoorVideo = {
     if (!this.isPlaying || !this.audioEl) return;
     const percent = (this.audioEl.currentTime / this.audioEl.duration) * 100;
     const playhead = document.getElementById("video-playhead");
-    if (playhead) playhead.style.left = `calc(${percent}% + 20px)`;
+    if (playhead) playhead.style.left = `calc(${percent}% - ${percent * 0.36}px + 20px)`;
     requestAnimationFrame(() => this.animatePlayhead());
   },
 
@@ -311,7 +477,7 @@ window.NoorVideo = {
 
   save() {
     try {
-      const data = { ...this.state, audioUrl: null, imageUrl: this.state.imageUrl };
+      const data = { ...this.state, audioUrl: null };
       localStorage.setItem("noorkit_video", JSON.stringify(data));
       this.showToast("تم حفظ الفيديو");
     } catch (e) {
@@ -327,24 +493,25 @@ window.NoorVideo = {
       this.state = { ...this.state, ...data };
       document.getElementById("video-title").value = this.state.title;
       this.updatePreview();
-      
-      /* تحديث الـ Timeline */
       if (this.state.imageUrl) this.updateTimelineTrack("image", "صورة محفوظة");
       if (this.state.text) this.updateTimelineTrack("text", "نص محفوظ");
     } catch (e) {}
   },
 
+  /* ═══════════════════════════════════════════════
+     تصدير الفيديو
+     ═══════════════════════════════════════════════ */
   async exportVideo() {
-    if (!this.state.imageUrl && !this.state.text) {
-      this.showToast("أضف صورة أو نصاً أولاً");
+    if (!this.state.imageUrl) {
+      this.showToast("أضف صورة أولاً");
       return;
     }
-    if (!this.audioUrl) {
+    if (!this.audioFile) {
       this.showToast("أضف صوتاً أولاً");
       return;
     }
 
-    this.showToast("جاري التصدير...");
+    this.showProgressModal("جاري تحضير الفيديو...");
 
     try {
       const canvas = document.createElement("canvas");
@@ -365,7 +532,7 @@ window.NoorVideo = {
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.direction = "rtl";
-        
+
         const words = this.state.text.split(" ");
         const lines = [];
         let currentLine = "";
@@ -390,18 +557,24 @@ window.NoorVideo = {
         });
       }
 
-      const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${this.state.title || "video"}.png`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      const imageDataUrl = canvas.toDataURL("image/png");
 
-      setTimeout(() => URL.revokeObjectURL(url), 2000);
-      this.showToast("تم تنزيل الصورة. الفيديو قريباً!");
+      const videoBlob = await NoorVideoExporter.exportVideo({
+        imageUrl: imageDataUrl,
+        audioBlob: this.audioFile,
+        quality: this.state.quality,
+        onProgress: (msg, p) => this.updateProgressModal(msg, p),
+      });
+
+      this.exportedBlob = videoBlob;
+
+      NoorVideoExporter.download(videoBlob, `${this.state.title || "video"}.mp4`);
+
+      this.closeProgressModal();
+      this.showToast("تم تصدير الفيديو");
     } catch (err) {
+      console.error("Export failed:", err);
+      this.closeProgressModal();
       this.showToast("تعذر التصدير");
     }
   },
