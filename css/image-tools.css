@@ -1,0 +1,45 @@
+/* =========================================
+   NoorKit — Image Tools CSS
+   ========================================= */
+
+/* ═══ شريط اختيار الصور ═══ */
+.nk-img-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nk-img-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.nk-img-select {
+  flex: 0 0 auto;
+  width: 60px;
+  height: 60px;
+  background: #2a2a2a;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  transition: border-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nk-img-select img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.nk-img-select:active {
+  border-color: #555;
+}
+
+.nk-img-select.active {
+  border-color: #ffffff;
+}
