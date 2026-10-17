@@ -215,3 +215,219 @@ window.NoorSelection = {
     this.container.style.width = width + "px";
     this.container.style.height = height + "px";
   },
+   
+  /* ═══════════════════════════════════════════════
+     ربط مقابض التحديد (حذف، تدوير، تكبير)
+     ═══════════════════════════════════════════════ */
+  bindOverlay() {
+    /* ═══ حذف ═══ */
+    document.getElementById("nk-sel-delete")?.addEventListener("click", async () => {
+      if (!this.active) return;
+
+      const d = NoorState.design;
+
+      if (this.activeType === "text") {
+        d.ayah.text = "";
+      } else if (this.activeType === "image") {
+        d.images = (d.images || []).filter((i) => i.id !== this.active.id);
+      } else if (this.activeType === "element") {
+        d.decorations = (d.decorations || []).filter((e) => e.id !== this.active.id);
+      }
+
+      this.deselect();
+      NoorState.pushHistory();
+      await NoorRenderer.render();
+    });
+
+    /* ═══ تدوير ═══ */
+    const rotateBtn = document.getElementById("nk-sel-rotate");
+    rotateBtn?.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      if (!this.active) return;
+
+      this.isRotating = true;
+      const rect = rotateBtn.getBoundingClientRect();
+      this.startX = rect.left + rect.width / 2;
+      this.startY = rect.top + rect.height / 2;
+      this.startVal = this.active.rotation || 0;
+
+      document.addEventListener("pointermove", this.onRotateMove);
+      document.addEventListener("pointerup", this.onRotateEnd);
+    });
+
+    /* ═══ تكبير ═══ */
+    const resizeBtn = document.getElementById("nk-sel-resize");
+    resizeBtn?.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      if (!this.active) return;
+
+      this.isResizing = true;
+      this.startX = e.clientX;
+      this.startY = e.clientY;
+
+      if (this.activeType === "text") {
+        this.startVal = NoorState.design.text.size;
+      } else if (this.activeType === "image") {
+        this.startVal = { w: this.active.width, h: this.active.height };
+      } else if (this.activeType === "element") {
+        this.startVal = this.active.size || 60;
+      }
+
+      document.addEventListener("pointermove", this.onResizeMove);
+      document.addEventListener("pointerup", this.onResizeEnd);
+    });
+  },
+
+  /* ═══════════════════════════════════════════════
+     تدوير — حركة
+     ═══════════════════════════════════════════════ */
+  onRotateMove: (e) => {
+    if (!NoorSelection.isRotating || !NoorSelection.active) return;
+
+    const canvas = document.getElementById("main-canvas");
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+
+    const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI);
+
+    /* نطرح 90 درجة — لأن المقبض أعلى العنصر */
+    const rotation = Math.round(angle + 90);
+
+    NoorSelection.active.rotation = rotation;
+    NoorRenderer.debouncedRender();
+    NoorSelection.updateOverlay();
+  },
+
+  onRotateEnd: () => {
+    NoorSelection.isRotating = false;
+    document.removeEventListener("pointermove", NoorSelection.onRotateMove);
+    document.removeEventListener("pointerup", NoorSelection.onRotateEnd);
+    NoorState.pushHistory();
+  },
+
+  /* ═══════════════════════════════════════════════
+     تكبير — حركة
+     ═══════════════════════════════════════════════ */
+  onResizeMove: (e) => {
+    if (!NoorSelection.isResizing || !NoorSelection.active) return;
+
+    const dx = e.clientX - NoorSelection.startX;
+    const dy = e.clientY - NoorSelection.startY;
+    const delta = (dx + dy) / 2;
+
+    if (NoorSelection.activeType === "text") {
+      const newSize = Math.max(10, Math.min(999, NoorSelection.startVal + delta));
+      NoorState.design.text.size = Math.round(newSize);
+    } else if (NoorSelection.activeType === "image") {
+      const ratio = NoorSelection.startVal.w / NoorSelection.startVal.h;
+      const newW = Math.max(30, NoorSelection.startVal.w + delta);
+      const newH = newW / ratio;
+      NoorSelection.active.width = newW;
+      NoorSelection.active.height = newH;
+      NoorSelection.active.x = NoorState.design.width / 2 - newW / 2;
+      NoorSelection.active.y = NoorState.design.height / 2 - newH / 2;
+    } else if (NoorSelection.activeType === "element") {
+      const newSize = Math.max(20, Math.min(300, NoorSelection.startVal + delta));
+      NoorSelection.active.size = newSize;
+    }
+
+    NoorRenderer.debouncedRender();
+    NoorSelection.updateOverlay();
+  },
+
+  onResizeEnd: () => {
+    NoorSelection.isResizing = false;
+    document.removeEventListener("pointermove", NoorSelection.onResizeMove);
+    document.removeEventListener("pointerup", NoorSelection.onResizeEnd);
+    NoorState.pushHistory();
+  },
+
+  /* ═══════════════════════════════════════════════
+     سحب العنصر
+     ═══════════════════════════════════════════════ */
+  startDrag(e) {
+    if (!this.active) return;
+
+    this.isDragging = true;
+    this.startX = e.clientX;
+    this.startY = e.clientY;
+
+    if (this.activeType === "text") {
+      this.startVal = {
+        x: this.active.x || NoorState.design.width / 2,
+        y: this.active.y || NoorState.design.height / 2,
+      };
+    } else if (this.activeType === "image") {
+      this.startVal = { x: this.active.x, y: this.active.y };
+    } else if (this.activeType === "element") {
+      this.startVal = { x: this.active.x, y: this.active.y };
+    }
+
+    document.addEventListener("pointermove", this.onDragMove);
+    document.addEventListener("pointerup", this.onDragEnd);
+  },
+
+  onDragMove: (e) => {
+    if (!NoorSelection.isDragging || !NoorSelection.active) return;
+
+    const scale = NoorRenderer.previewScale || 1;
+    const dx = (e.clientX - NoorSelection.startX) / scale;
+    const dy = (e.clientY - NoorSelection.startY) / scale;
+
+    if (NoorSelection.activeType === "text") {
+      NoorSelection.active.x = NoorSelection.startVal.x + dx;
+      NoorSelection.active.y = NoorSelection.startVal.y + dy;
+    } else if (NoorSelection.activeType === "image") {
+      NoorSelection.active.x = NoorSelection.startVal.x + dx;
+      NoorSelection.active.y = NoorSelection.startVal.y + dy;
+    } else if (NoorSelection.activeType === "element") {
+      NoorSelection.active.x = NoorSelection.startVal.x + dx;
+      NoorSelection.active.y = NoorSelection.startVal.y + dy;
+    }
+
+    NoorRenderer.debouncedRender();
+    NoorSelection.updateOverlay();
+  },
+
+  onDragEnd: () => {
+    NoorSelection.isDragging = false;
+    document.removeEventListener("pointermove", NoorSelection.onDragMove);
+    document.removeEventListener("pointerup", NoorSelection.onDragEnd);
+    NoorState.pushHistory();
+  },
+
+  /* ═══════════════════════════════════════════════
+     تحويل إحداثيات اللمس إلى إحداثيات Canvas
+     ═══════════════════════════════════════════════ */
+  getCanvasPoint(e) {
+    const canvas = document.getElementById("main-canvas");
+    const rect = canvas.getBoundingClientRect();
+    const scale = NoorRenderer.previewScale;
+
+    return {
+      x: (e.clientX - rect.left) / scale,
+      y: (e.clientY - rect.top) / scale,
+    };
+  },
+
+  /* ═══════════════════════════════════════════════
+     التحقق من الضغط على مقبض
+     ═══════════════════════════════════════════════ */
+  isOnHandle(e) {
+    const target = e.target;
+    return target && target.classList && target.classList.contains("nk-sel-handle");
+  },
+};
+
+/* ═══════════════════════════════════════════════
+   تشغيل تلقائي
+   ═══════════════════════════════════════════════ */
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof NoorSelection !== "undefined") {
+    /* تأخير بسيط حتى يُهيأ الـ Canvas */
+    setTimeout(() => NoorSelection.init(), 500);
+  }
+});
