@@ -1,12 +1,12 @@
 /* =========================================
-   NoorKit — Selection System (v1)
-   نظام تحديد العناصر + السحب + التكبير + التدوير
+   NoorKit — Selection System (v2)
+   سلس + يدور مع العنصر
    ========================================= */
 
 window.NoorSelection = {
-  active: null,          // العنصر المحدد حالياً
-  activeType: null,      // نوع العنصر: 'text' | 'image' | 'element'
-  container: null,       // حاوية التحديد
+  active: null,
+  activeType: null,
+  container: null,
   isDragging: false,
   isResizing: false,
   isRotating: false,
@@ -14,9 +14,6 @@ window.NoorSelection = {
   startY: 0,
   startVal: null,
 
-  /* ═══════════════════════════════════════════════
-     التهيئة
-     ═══════════════════════════════════════════════ */
   init() {
     this.buildOverlay();
     this.bindCanvas();
@@ -24,9 +21,6 @@ window.NoorSelection = {
     window.addEventListener("resize", () => this.updateOverlay());
   },
 
-  /* ═══════════════════════════════════════════════
-     بناء الطبقة العلوية (Overlay)
-     ═══════════════════════════════════════════════ */
   buildOverlay() {
     if (document.getElementById("nk-selection")) return;
 
@@ -65,14 +59,10 @@ window.NoorSelection = {
     this.container = overlay;
   },
 
-  /* ═══════════════════════════════════════════════
-     ربط الـ Canvas — الضغط والسحب
-     ═══════════════════════════════════════════════ */
   bindCanvas() {
     const canvas = document.getElementById("main-canvas");
     if (!canvas) return;
 
-    /* ═══ الضغط ═══ */
     canvas.addEventListener("pointerdown", (e) => {
       if (this.isOnHandle(e)) return;
 
@@ -81,19 +71,20 @@ window.NoorSelection = {
 
       if (hit) {
         this.select(hit.type, hit.element);
+        // بدء السحب فوراً
+        this.startDrag(e);
       } else {
         this.deselect();
       }
     });
   },
 
-  /* ═══════════════════════════════════════════════
-     اختبار الضغط على العناصر
-     ═══════════════════════════════════════════════ */
   hitTest(x, y) {
     const d = NoorState.design;
+    const canvas = document.getElementById("main-canvas");
+    const ctx = canvas.getContext("2d");
 
-    /* ═══ العناصر (أشكال، رموز) ═══ */
+    // 1. العناصر
     if (d.decorations && d.decorations.length > 0) {
       for (let i = d.decorations.length - 1; i >= 0; i--) {
         const el = d.decorations[i];
@@ -105,7 +96,7 @@ window.NoorSelection = {
       }
     }
 
-    /* ═══ الصور ═══ */
+    // 2. الصور
     if (d.images && d.images.length > 0) {
       for (let i = d.images.length - 1; i >= 0; i--) {
         const img = d.images[i];
@@ -115,15 +106,13 @@ window.NoorSelection = {
       }
     }
 
-    /* ═══ النص ═══ */
+    // 3. النص
     if (d.ayah && d.ayah.text) {
       const padding = Math.round(d.width * 0.1);
       const maxW = d.width - padding * 2;
       const cx = d.ayah.x || d.width / 2;
       const cy = d.ayah.y || d.height / 2;
 
-      const canvas = document.getElementById("main-canvas");
-      const ctx = canvas.getContext("2d");
       const font = NoorFonts.get(d.text.fontId);
       ctx.font = `400 ${d.text.size}px ${font.family}`;
       const lines = NoorRenderer.wrapText(ctx, d.ayah.text, maxW);
@@ -139,9 +128,6 @@ window.NoorSelection = {
     return null;
   },
 
-  /* ═══════════════════════════════════════════════
-     تحديد عنصر
-     ═══════════════════════════════════════════════ */
   select(type, element) {
     this.active = element;
     this.activeType = type;
@@ -149,18 +135,12 @@ window.NoorSelection = {
     this.updateOverlay();
   },
 
-  /* ═══════════════════════════════════════════════
-     إلغاء التحديد
-     ═══════════════════════════════════════════════ */
   deselect() {
     this.active = null;
     this.activeType = null;
     this.container.hidden = true;
   },
 
-  /* ═══════════════════════════════════════════════
-     تحديث موقع مربع التحديد
-     ═══════════════════════════════════════════════ */
   updateOverlay() {
     if (!this.active || !this.container) return;
 
@@ -169,9 +149,9 @@ window.NoorSelection = {
 
     const rect = canvas.getBoundingClientRect();
     const scale = NoorRenderer.previewScale;
-
-    let x, y, w, h;
     const d = NoorState.design;
+
+    let x, y, w, h, rotation = 0;
 
     if (this.activeType === "text") {
       const padding = Math.round(d.width * 0.1);
@@ -185,24 +165,28 @@ window.NoorSelection = {
       const lines = NoorRenderer.wrapText(ctx, this.active.text, maxW);
       const lineHeight = d.text.size * (d.text.lineHeight || 1.8);
       const totalH = lines.length * lineHeight;
-
       const maxLineW = Math.max(...lines.map((line) => ctx.measureText(line).width));
 
-      x = cx - maxLineW / 2;
-      y = cy - totalH / 2;
       w = maxLineW;
       h = totalH;
+      x = cx - w / 2;
+      y = cy - h / 2;
+      rotation = this.active.rotation || 0;
+
     } else if (this.activeType === "image") {
       x = this.active.x;
       y = this.active.y;
       w = this.active.width;
       h = this.active.height;
+      rotation = this.active.rotation || 0;
+
     } else if (this.activeType === "element") {
       const size = this.active.size || 60;
       x = this.active.x - size / 2;
       y = this.active.y - size / 2;
       w = size;
       h = size;
+      rotation = this.active.rotation || 0;
     }
 
     const left = rect.left + x * scale;
@@ -210,90 +194,86 @@ window.NoorSelection = {
     const width = w * scale;
     const height = h * scale;
 
+    // مركز العنصر للتدوير
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+
     this.container.style.left = left + "px";
     this.container.style.top = top + "px";
     this.container.style.width = width + "px";
     this.container.style.height = height + "px";
+    this.container.style.transformOrigin = `${centerX - left}px ${centerY - top}px`;
+    this.container.style.transform = `rotate(${rotation}deg)`;
   },
-   
-  /* ═══════════════════════════════════════════════
-     ربط مقابض التحديد (حذف، تدوير، تكبير)
-     ═══════════════════════════════════════════════ */
+
   bindOverlay() {
-    /* ═══ حذف ═══ */
+    // حذف
     document.getElementById("nk-sel-delete")?.addEventListener("click", async () => {
       if (!this.active) return;
-
       const d = NoorState.design;
 
-      if (this.activeType === "text") {
-        d.ayah.text = "";
-      } else if (this.activeType === "image") {
-        d.images = (d.images || []).filter((i) => i.id !== this.active.id);
-      } else if (this.activeType === "element") {
-        d.decorations = (d.decorations || []).filter((e) => e.id !== this.active.id);
-      }
+      if (this.activeType === "text") d.ayah.text = "";
+      else if (this.activeType === "image") d.images = (d.images || []).filter((i) => i.id !== this.active.id);
+      else if (this.activeType === "element") d.decorations = (d.decorations || []).filter((e) => e.id !== this.active.id);
 
       this.deselect();
       NoorState.pushHistory();
       await NoorRenderer.render();
     });
 
-    /* ═══ تدوير ═══ */
+    // تدوير
     const rotateBtn = document.getElementById("nk-sel-rotate");
     rotateBtn?.addEventListener("pointerdown", (e) => {
       e.preventDefault();
+      e.stopPropagation();
       if (!this.active) return;
-
       this.isRotating = true;
       const rect = rotateBtn.getBoundingClientRect();
       this.startX = rect.left + rect.width / 2;
       this.startY = rect.top + rect.height / 2;
-      this.startVal = this.active.rotation || 0;
-
       document.addEventListener("pointermove", this.onRotateMove);
       document.addEventListener("pointerup", this.onRotateEnd);
     });
 
-    /* ═══ تكبير ═══ */
+    // تكبير
     const resizeBtn = document.getElementById("nk-sel-resize");
     resizeBtn?.addEventListener("pointerdown", (e) => {
       e.preventDefault();
+      e.stopPropagation();
       if (!this.active) return;
-
       this.isResizing = true;
       this.startX = e.clientX;
       this.startY = e.clientY;
-
-      if (this.activeType === "text") {
-        this.startVal = NoorState.design.text.size;
-      } else if (this.activeType === "image") {
-        this.startVal = { w: this.active.width, h: this.active.height };
-      } else if (this.activeType === "element") {
-        this.startVal = this.active.size || 60;
-      }
-
+      if (this.activeType === "text") this.startVal = NoorState.design.text.size;
+      else if (this.activeType === "image") this.startVal = { w: this.active.width, h: this.active.height };
+      else if (this.activeType === "element") this.startVal = this.active.size || 60;
       document.addEventListener("pointermove", this.onResizeMove);
       document.addEventListener("pointerup", this.onResizeEnd);
     });
   },
 
-  /* ═══════════════════════════════════════════════
-     تدوير — حركة
-     ═══════════════════════════════════════════════ */
   onRotateMove: (e) => {
     if (!NoorSelection.isRotating || !NoorSelection.active) return;
-
     const canvas = document.getElementById("main-canvas");
     if (!canvas) return;
 
+    const d = NoorState.design;
+    let cx, cy;
+
+    if (NoorSelection.activeType === "text") {
+      cx = NoorSelection.active.x || d.width / 2;
+      cy = NoorSelection.active.y || d.height / 2;
+    } else {
+      cx = NoorSelection.active.x + (NoorSelection.active.width || 60) / 2;
+      cy = NoorSelection.active.y + (NoorSelection.active.height || 60) / 2;
+    }
+
     const rect = canvas.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
+    const scale = NoorRenderer.previewScale;
+    const screenCx = rect.left + cx * scale;
+    const screenCy = rect.top + cy * scale;
 
-    const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI);
-
-    /* نطرح 90 درجة — لأن المقبض أعلى العنصر */
+    const angle = Math.atan2(e.clientY - screenCy, e.clientX - screenCx) * (180 / Math.PI);
     const rotation = Math.round(angle + 90);
 
     NoorSelection.active.rotation = rotation;
@@ -308,30 +288,23 @@ window.NoorSelection = {
     NoorState.pushHistory();
   },
 
-  /* ═══════════════════════════════════════════════
-     تكبير — حركة
-     ═══════════════════════════════════════════════ */
   onResizeMove: (e) => {
     if (!NoorSelection.isResizing || !NoorSelection.active) return;
-
     const dx = e.clientX - NoorSelection.startX;
     const dy = e.clientY - NoorSelection.startY;
     const delta = (dx + dy) / 2;
 
     if (NoorSelection.activeType === "text") {
-      const newSize = Math.max(10, Math.min(999, NoorSelection.startVal + delta));
-      NoorState.design.text.size = Math.round(newSize);
+      NoorState.design.text.size = Math.max(10, Math.min(999, NoorSelection.startVal + delta));
     } else if (NoorSelection.activeType === "image") {
       const ratio = NoorSelection.startVal.w / NoorSelection.startVal.h;
       const newW = Math.max(30, NoorSelection.startVal.w + delta);
-      const newH = newW / ratio;
       NoorSelection.active.width = newW;
-      NoorSelection.active.height = newH;
+      NoorSelection.active.height = newW / ratio;
       NoorSelection.active.x = NoorState.design.width / 2 - newW / 2;
-      NoorSelection.active.y = NoorState.design.height / 2 - newH / 2;
+      NoorSelection.active.y = NoorState.design.height / 2 - NoorSelection.active.height / 2;
     } else if (NoorSelection.activeType === "element") {
-      const newSize = Math.max(20, Math.min(300, NoorSelection.startVal + delta));
-      NoorSelection.active.size = newSize;
+      NoorSelection.active.size = Math.max(20, Math.min(300, NoorSelection.startVal + delta));
     }
 
     NoorRenderer.debouncedRender();
@@ -345,26 +318,15 @@ window.NoorSelection = {
     NoorState.pushHistory();
   },
 
-  /* ═══════════════════════════════════════════════
-     سحب العنصر
-     ═══════════════════════════════════════════════ */
   startDrag(e) {
     if (!this.active) return;
-
     this.isDragging = true;
     this.startX = e.clientX;
     this.startY = e.clientY;
 
-    if (this.activeType === "text") {
-      this.startVal = {
-        x: this.active.x || NoorState.design.width / 2,
-        y: this.active.y || NoorState.design.height / 2,
-      };
-    } else if (this.activeType === "image") {
-      this.startVal = { x: this.active.x, y: this.active.y };
-    } else if (this.activeType === "element") {
-      this.startVal = { x: this.active.x, y: this.active.y };
-    }
+    const d = NoorState.design;
+    if (this.activeType === "text") this.startVal = { x: this.active.x || d.width / 2, y: this.active.y || d.height / 2 };
+    else this.startVal = { x: this.active.x, y: this.active.y };
 
     document.addEventListener("pointermove", this.onDragMove);
     document.addEventListener("pointerup", this.onDragEnd);
@@ -372,21 +334,12 @@ window.NoorSelection = {
 
   onDragMove: (e) => {
     if (!NoorSelection.isDragging || !NoorSelection.active) return;
-
     const scale = NoorRenderer.previewScale || 1;
     const dx = (e.clientX - NoorSelection.startX) / scale;
     const dy = (e.clientY - NoorSelection.startY) / scale;
 
-    if (NoorSelection.activeType === "text") {
-      NoorSelection.active.x = NoorSelection.startVal.x + dx;
-      NoorSelection.active.y = NoorSelection.startVal.y + dy;
-    } else if (NoorSelection.activeType === "image") {
-      NoorSelection.active.x = NoorSelection.startVal.x + dx;
-      NoorSelection.active.y = NoorSelection.startVal.y + dy;
-    } else if (NoorSelection.activeType === "element") {
-      NoorSelection.active.x = NoorSelection.startVal.x + dx;
-      NoorSelection.active.y = NoorSelection.startVal.y + dy;
-    }
+    NoorSelection.active.x = NoorSelection.startVal.x + dx;
+    NoorSelection.active.y = NoorSelection.startVal.y + dy;
 
     NoorRenderer.debouncedRender();
     NoorSelection.updateOverlay();
@@ -399,35 +352,20 @@ window.NoorSelection = {
     NoorState.pushHistory();
   },
 
-  /* ═══════════════════════════════════════════════
-     تحويل إحداثيات اللمس إلى إحداثيات Canvas
-     ═══════════════════════════════════════════════ */
   getCanvasPoint(e) {
     const canvas = document.getElementById("main-canvas");
     const rect = canvas.getBoundingClientRect();
     const scale = NoorRenderer.previewScale;
-
-    return {
-      x: (e.clientX - rect.left) / scale,
-      y: (e.clientY - rect.top) / scale,
-    };
+    return { x: (e.clientX - rect.left) / scale, y: (e.clientY - rect.top) / scale };
   },
 
-  /* ═══════════════════════════════════════════════
-     التحقق من الضغط على مقبض
-     ═══════════════════════════════════════════════ */
   isOnHandle(e) {
-    const target = e.target;
-    return target && target.classList && target.classList.contains("nk-sel-handle");
+    return e.target && e.target.classList && e.target.classList.contains("nk-sel-handle");
   },
 };
 
-/* ═══════════════════════════════════════════════
-   تشغيل تلقائي
-   ═══════════════════════════════════════════════ */
 document.addEventListener("DOMContentLoaded", () => {
   if (typeof NoorSelection !== "undefined") {
-    /* تأخير بسيط حتى يُهيأ الـ Canvas */
     setTimeout(() => NoorSelection.init(), 500);
   }
 });
