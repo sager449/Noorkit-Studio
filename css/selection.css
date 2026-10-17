@@ -1,5 +1,6 @@
 /* =========================================
-   NoorKit — Selection CSS (بالألوان الجديدة)
+   NoorKit — Selection CSS (v3)
+   المقابض لا تدور مع المربع
    ========================================= */
 
 .nk-selection {
@@ -7,29 +8,29 @@
   z-index: 9995;
   pointer-events: none;
   touch-action: none;
-  transition: transform 0.05s linear; /* سلسة جداً عند التدوير */
 }
 
 .nk-selection[hidden] {
   display: none !important;
 }
 
-/* ═══ إطار التحديد ═══ */
+/* ═══ إطار التحديد — يدور ═══ */
 .nk-sel-border {
   position: absolute;
   inset: 0;
-  border: 2px dashed #ffffff; /* أبيض ليتماشى مع التصميم */
-  box-shadow: 0 0 0 1px rgba(185, 28, 28, 0.3); /* ظل أحمر خفيف */
+  border: 2px dashed #ffffff;
+  box-shadow: 0 0 0 1px rgba(185, 28, 28, 0.3);
   pointer-events: none;
+  transition: transform 0.05s linear;
 }
 
-/* ═══ المقابض (الأزرار) ═══ */
+/* ═══ المقابض — لا تدور ═══ */
 .nk-sel-handle {
   position: absolute;
   width: 32px;
   height: 32px;
   background: #ffffff;
-  border: 2px solid #b91c1c; /* حدود حمراء */
+  border: 2px solid #b91c1c;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -41,17 +42,18 @@
   box-shadow: 0 2px 8px rgba(185, 28, 28, 0.4);
   transition: transform 0.1s, background 0.1s;
   touch-action: none;
+  z-index: 2;
 }
 
 .nk-sel-handle:active {
   transform: scale(0.9);
-  background: #b91c1c; /* يتحول للأحمر عند الضغط */
+  background: #b91c1c;
 }
 
 .nk-sel-handle svg {
   width: 14px;
   height: 14px;
-  stroke: #b91c1c; /* أيقونة حمراء */
+  stroke: #b91c1c;
   stroke-width: 2.5;
   fill: none;
 }
@@ -60,7 +62,7 @@
   stroke: #ffffff;
 }
 
-/* ─── الأماكن ─── */
+/* ─── الأماكن (زوايا) ─── */
 .nk-sel-delete {
   top: -16px;
   left: -16px;
