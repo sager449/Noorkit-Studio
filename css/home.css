@@ -1,20 +1,20 @@
 /* ═══════════════════════════════════════════════
    NoorKit — Home.css
-   الشاشة الرئيسية
    ═══════════════════════════════════════════════ */
 
 .home-body {
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: #f0f0f0;
 }
 
-/* ═══ الهيدر ═══ */
+/* ═══ الهيدر 🔴 ═══ */
 .home-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  background: var(--nk-bg-primary);
-  border-bottom: 1px solid var(--nk-border);
+  background: #b91c1c;
+  border-bottom: 2px solid #7f1d1d;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -32,7 +32,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--nk-accent-gold);
+  color: #ffffff;
 }
 
 .brand-icon svg {
@@ -44,19 +44,20 @@
 .brand-name {
   font-size: 18px;
   font-weight: 800;
-  color: var(--nk-text-primary);
+  color: #ffffff;
   letter-spacing: 0.5px;
 }
 
 .brand-accent {
-  color: var(--nk-accent-gold);
+  color: #ffffff;
+  opacity: 0.8;
 }
 
 .home-icon-btn {
   width: 38px;
   height: 38px;
-  background: #2a2a2a;
-  color: #b0b0b0;
+  background: #7f1d1d;
+  color: #fecaca;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,7 +66,7 @@
 }
 
 .home-icon-btn:active {
-  background: #3a3a3a;
+  background: #991b1b;
   color: #ffffff;
 }
 
@@ -74,7 +75,6 @@
   height: 18px;
 }
 
-/* ═══ المحتوى الرئيسي ═══ */
 .home-main {
   padding: 20px;
   display: flex;
@@ -82,14 +82,14 @@
   gap: 24px;
 }
 
-/* ═══ زر مشروع جديد ═══ */
+/* ═══ زر مشروع جديد 🔴 ═══ */
 .home-new-btn {
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 20px 22px;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-  border: 1px solid #3a3a3a;
+  background: #b91c1c;
+  border: 1px solid #7f1d1d;
   color: #ffffff;
   cursor: pointer;
   transition: all 0.2s;
@@ -104,13 +104,13 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
   transition: left 0.5s;
 }
 
 .home-new-btn:active {
   transform: scale(0.98);
-  border-color: #c9a227;
+  background: #991b1b;
 }
 
 .home-new-btn:active::before {
@@ -120,8 +120,8 @@
 .home-new-icon {
   width: 44px;
   height: 44px;
-  background: #c9a227;
-  color: #0d0d0d;
+  background: #ffffff;
+  color: #b91c1c;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -155,21 +155,21 @@
 .home-section-title {
   font-size: 14px;
   font-weight: 700;
-  color: #ffffff;
+  color: #111111;
   letter-spacing: 0.3px;
 }
 
 .home-section-count {
   font-size: 12px;
   font-weight: 700;
-  color: #888;
-  background: #2a2a2a;
+  color: #ffffff;
+  background: #b91c1c;
   padding: 3px 10px;
   min-width: 28px;
   text-align: center;
 }
 
-/* ═══ شبكة المشاريع ═══ */
+/* ═══ المشاريع ═══ */
 .home-projects {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -179,21 +179,21 @@
 .home-project {
   display: flex;
   flex-direction: column;
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
   cursor: pointer;
   transition: border-color 0.15s;
   overflow: hidden;
 }
 
 .home-project:active {
-  border-color: #c9a227;
+  border-color: #b91c1c;
 }
 
 .home-project-thumb {
   width: 100%;
   aspect-ratio: 1 / 1;
-  background: #2a2a2a;
+  background: #e5e5e5;
   background-size: cover;
   background-position: center;
 }
@@ -208,7 +208,7 @@
 .home-project-name {
   font-size: 12px;
   font-weight: 700;
-  color: #ffffff;
+  color: #111111;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -216,20 +216,18 @@
 
 .home-project-date {
   font-size: 10px;
-  color: #666;
+  color: #888;
 }
 
-/* ═══ Empty state ═══ */
 .home-empty {
   text-align: center;
   padding: 40px 20px;
-  color: #666;
+  color: #888;
   font-size: 13px;
-  background: #1a1a1a;
-  border: 1px dashed #2a2a2a;
+  background: #ffffff;
+  border: 1px dashed #d4d4d4;
 }
 
-/* ═══ شبكة القوالب ═══ */
 .home-templates {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -238,17 +236,16 @@
 
 .home-template {
   aspect-ratio: 1 / 1;
-  background: #1a1a1a;
-  border: 1px dashed #2a2a2a;
+  background: #ffffff;
+  border: 1px dashed #d4d4d4;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 11px;
-  color: #555;
+  color: #888;
   font-weight: 600;
 }
 
-/* ═══ Responsive — شاشات صغيرة ═══ */
 @media (max-width: 360px) {
   .home-main {
     padding: 16px;
@@ -274,7 +271,6 @@
   }
 }
 
-/* ═══ Responsive — شاشات كبيرة ═══ */
 @media (min-width: 600px) {
   .home-projects {
     grid-template-columns: repeat(3, 1fr);
@@ -291,4 +287,4 @@
     margin: 0 auto;
     padding: 32px;
   }
-}
+     }
