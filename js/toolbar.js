@@ -1,6 +1,6 @@
 /* =========================================
-   NoorKit — Toolbar System (v7)
-   يدعم كل التبويبات + القوالب
+   NoorKit — Toolbar System (v8 Final)
+   يدعم: كل التبويبات الثمانية
    ========================================= */
 
 window.NoorToolbar = {
@@ -308,6 +308,10 @@ window.NoorToolbar = {
       html = NoorTemplatesTools.renderContent(toolId);
     }
 
+    if (!html && typeof NoorSettingsTools !== "undefined" && toolId.startsWith("settings-")) {
+      html = NoorSettingsTools.renderContent(toolId);
+    }
+
     if (!html) {
       html = `<p style="padding:20px;text-align:center;color:#666;font-size:13px;">قريباً</p>`;
     }
@@ -349,6 +353,10 @@ window.NoorToolbar = {
 
     if (typeof NoorTemplatesTools !== "undefined" && toolId.startsWith("templates-")) {
       NoorTemplatesTools.bindContent(toolId);
+    }
+
+    if (typeof NoorSettingsTools !== "undefined" && toolId.startsWith("settings-")) {
+      NoorSettingsTools.bindContent(toolId);
     }
 
     this.positionMiniSheet();
