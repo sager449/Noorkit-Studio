@@ -1,41 +1,13 @@
 /* ═══════════════════════════════════════════════
-   NoorKit — Style.css (أحمر شامل)
+   NoorKit — Style.css
    ═══════════════════════════════════════════════ */
 
 :root {
-  /* 🔴 ألوان حمراء - كل المستويات */
-  --nk-red-50:   #fef2f2;
-  --nk-red-100:  #fee2e2;
-  --nk-red-200:  #fecaca;
-  --nk-red-500:  #ef4444;
-  --nk-red-600:  #dc2626;
-  --nk-red-700:  #b91c1c;
-  --nk-red-800:  #991b1b;
-  --nk-red-900:  #7f1d1d;
-  --nk-red-950:  #4c0a0a;
-
-  /* الخلفيات */
-  --nk-bg-primary:     #4c0a0a;
-  --nk-bg-secondary:   #5c1010;
-  --nk-bg-card:        #6b1414;
-  --nk-bg-btn:         #7f1d1d;
-  --nk-bg-btn-hover:   #991b1b;
-  --nk-border:         #6b1414;
-
-  /* النصوص */
-  --nk-text-primary:   #ffffff;
-  --nk-text-secondary: #fecaca;
-  --nk-text-muted:     #fca5a5;
-  --nk-text-dark:      #b91c1c;
-
-  /* الأساسي */
-  --nk-accent:         #dc2626;
-  --nk-accent-hover:   #ef4444;
-  --nk-accent-light:   #f87171;
-  --nk-accent-dark:    #7f1d1d;
-
-  /* الذهبي */
-  --nk-gold:           #c9a227;
+  --nk-red-700: #b91c1c;
+  --nk-red-800: #991b1b;
+  --nk-red-900: #7f1d1d;
+  --nk-red-950: #4c0a0a;
+  --nk-gold: #c9a227;
 }
 
 * {
@@ -45,8 +17,7 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-html,
-body {
+html, body {
   height: 100%;
   overflow-x: hidden;
 }
@@ -55,8 +26,8 @@ body {
   font-family: "Cairo", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 14px;
   line-height: 1.5;
-  background: var(--nk-bg-primary);
-  color: var(--nk-text-primary);
+  background: #f0f0f0;
+  color: #111111;
   direction: rtl;
   text-align: right;
   -webkit-font-smoothing: antialiased;
@@ -83,9 +54,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
-input,
-select,
-textarea {
+input, select, textarea {
   font-family: inherit;
   outline: none;
   border: none;
@@ -97,7 +66,6 @@ textarea {
 .editor-body {
   min-height: 100vh;
   min-height: 100dvh;
-  background: var(--nk-bg-primary);
 }
 
 /* ═══ Toast ═══ */
@@ -106,8 +74,8 @@ textarea {
   bottom: 100px;
   left: 50%;
   transform: translateX(-50%) translateY(20px);
-  background: #ffffff;
-  color: var(--nk-accent-dark);
+  background: #b91c1c;
+  color: #ffffff;
   padding: 12px 24px;
   font-size: 13px;
   font-weight: 700;
@@ -118,7 +86,7 @@ textarea {
   max-width: 80%;
   text-align: center;
   font-family: inherit;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 16px rgba(185, 28, 28, 0.4);
 }
 
 .toast.show {
@@ -137,15 +105,10 @@ textarea {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--nk-accent);
+  background: #b91c1c;
   border-radius: 2px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--nk-accent-hover);
-}
-
-/* ═══ أدوات مساعدة ═══ */
 .hidden { display: none !important; }
 .invisible { visibility: hidden !important; }
 .no-select {
