@@ -1,0 +1,78 @@
+/* =========================================
+   NoorKit — Selection CSS
+   مربع التحديد + المقابض
+   ========================================= */
+
+.nk-selection {
+  position: fixed;
+  z-index: 9995;
+  pointer-events: none;
+  touch-action: none;
+}
+
+.nk-selection[hidden] {
+  display: none !important;
+}
+
+/* ═══ إطار التحديد ═══ */
+.nk-sel-border {
+  position: absolute;
+  inset: 0;
+  border: 2px dashed #ff6b00;
+  pointer-events: none;
+}
+
+/* ═══ المقابض (الأزرار) ═══ */
+.nk-sel-handle {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  background: #ffffff;
+  border: 2px solid #ff6b00;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s;
+  touch-action: none;
+}
+
+.nk-sel-handle:active {
+  transform: scale(0.9);
+  background: #ff6b00;
+}
+
+.nk-sel-handle:active svg {
+  stroke: #ffffff;
+}
+
+.nk-sel-handle svg {
+  width: 16px;
+  height: 16px;
+  stroke: #ff6b00;
+  stroke-width: 2.5;
+  fill: none;
+}
+
+/* ─── زر الحذف (أعلى اليسار) ─── */
+.nk-sel-delete {
+  top: -17px;
+  left: -17px;
+}
+
+/* ─── زر التدوير (أعلى اليمين) ─── */
+.nk-sel-rotate {
+  top: -17px;
+  right: -17px;
+}
+
+/* ─── زر التكبير (أسفل اليمين) ─── */
+.nk-sel-resize {
+  bottom: -17px;
+  right: -17px;
+}
