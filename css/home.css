@@ -288,3 +288,76 @@
     padding: 32px;
   }
      }
+/* ═══════════════════════════════════════════════
+   نوعا المشروع (تصميم / فيديو)
+   ═══════════════════════════════════════════════ */
+
+.home-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.home-type-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 12px;
+  background: #b91c1c;
+  border: 1px solid #7f1d1d;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.home-type-btn:active {
+  transform: scale(0.98);
+  background: #991b1b;
+}
+
+.home-type-btn.home-type-video {
+  background: #ffffff;
+  color: #b91c1c;
+  border-color: #d4d4d4;
+}
+
+.home-type-btn.home-type-video:active {
+  background: #fee2e2;
+}
+
+.home-type-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.home-type-btn.home-type-video .home-type-icon {
+  background: rgba(185, 28, 28, 0.1);
+}
+
+.home-type-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.home-type-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.home-type-title {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.home-type-desc {
+  font-size: 10px;
+  opacity: 0.75;
+  font-weight: 600;
+}
