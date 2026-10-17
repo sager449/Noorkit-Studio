@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════
-   NoorKit — Editor.css (أحمر شامل)
+   NoorKit — Editor.css
+   أشرطة حمراء + خلفية الكانفس رمادي فاتح
    ═══════════════════════════════════════════════ */
 
 .editor-body {
@@ -7,17 +8,18 @@
   flex-direction: column;
   min-height: 100vh;
   min-height: 100dvh;
-  background: var(--nk-bg-primary, #4c0a0a);
+  background: #f0f0f0;
   overflow: hidden;
 }
 
+/* ═══ الهيدر 🔴 ═══ */
 .editor-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 8px 12px;
-  background: var(--nk-bg-secondary, #5c1010);
-  border-bottom: 2px solid var(--nk-accent, #dc2626);
+  background: #b91c1c;
+  border-bottom: 2px solid #7f1d1d;
   flex-shrink: 0;
   z-index: 100;
   height: 56px;
@@ -38,8 +40,8 @@
 .editor-icon-btn {
   width: 36px;
   height: 36px;
-  background: var(--nk-bg-btn, #7f1d1d);
-  color: var(--nk-text-secondary, #fecaca);
+  background: #7f1d1d;
+  color: #fecaca;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,7 +51,7 @@
 }
 
 .editor-icon-btn:active {
-  background: var(--nk-accent, #dc2626);
+  background: #991b1b;
   color: #ffffff;
 }
 
@@ -59,12 +61,12 @@
 }
 
 .editor-icon-btn.primary {
-  background: var(--nk-accent, #dc2626);
-  color: #ffffff;
+  background: #ffffff;
+  color: #b91c1c;
 }
 
 .editor-icon-btn.primary:active {
-  background: var(--nk-accent-dark, #7f1d1d);
+  background: #fee2e2;
 }
 
 .editor-icon-btn svg {
@@ -89,9 +91,10 @@
 }
 
 .editor-title-input::placeholder {
-  color: var(--nk-text-muted, #fca5a5);
+  color: #fca5a5;
 }
 
+/* ═══ مساحة العمل — رمادي فاتح جداً ═══ */
 .editor-main {
   flex: 1;
   display: flex;
@@ -102,7 +105,7 @@
   overflow: hidden;
   position: relative;
   transition: padding-bottom 0.2s ease-out;
-  background: var(--nk-bg-primary, #4c0a0a);
+  background: #f0f0f0;
 }
 
 .canvas-wrapper {
@@ -122,7 +125,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   background: #f5ede0;
   position: relative;
 }
