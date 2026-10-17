@@ -1,5 +1,5 @@
 /* =========================================
-   NoorKit — Selection CSS (v4)
+   NoorKit — Selection CSS (v5)
    ========================================= */
 
 .nk-selection {
@@ -13,7 +13,6 @@
   display: none !important;
 }
 
-/* ═══ إطار التحديد ═══ */
 .nk-sel-border {
   position: absolute;
   inset: 0;
@@ -22,7 +21,6 @@
   pointer-events: none;
 }
 
-/* ═══ المقابض ═══ */
 .nk-sel-handle {
   position: absolute;
   width: 32px;
