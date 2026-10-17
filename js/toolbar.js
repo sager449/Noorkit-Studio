@@ -1,6 +1,6 @@
 /* =========================================
-   NoorKit — Toolbar System (v6)
-   يدعم كل التبويبات
+   NoorKit — Toolbar System (v7)
+   يدعم كل التبويبات + القوالب
    ========================================= */
 
 window.NoorToolbar = {
@@ -300,12 +300,12 @@ window.NoorToolbar = {
       html = NoorEffectsTools.renderContent(toolId);
     }
 
-    if (
-      !html &&
-      typeof NoorElementsTools !== "undefined" &&
-      toolId.startsWith("elements-")
-    ) {
+    if (!html && typeof NoorElementsTools !== "undefined" && toolId.startsWith("elements-")) {
       html = NoorElementsTools.renderContent(toolId);
+    }
+
+    if (!html && typeof NoorTemplatesTools !== "undefined" && toolId.startsWith("templates-")) {
+      html = NoorTemplatesTools.renderContent(toolId);
     }
 
     if (!html) {
@@ -345,6 +345,10 @@ window.NoorToolbar = {
 
     if (typeof NoorElementsTools !== "undefined" && toolId.startsWith("elements-")) {
       NoorElementsTools.bindContent(toolId);
+    }
+
+    if (typeof NoorTemplatesTools !== "undefined" && toolId.startsWith("templates-")) {
+      NoorTemplatesTools.bindContent(toolId);
     }
 
     this.positionMiniSheet();
