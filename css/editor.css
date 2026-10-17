@@ -1,6 +1,5 @@
 /* ═══════════════════════════════════════════════
-   NoorKit — Editor.css
-   المحرر — الهيكل والهيدر والـ Canvas
+   NoorKit — Editor.css (أحمر)
    ═══════════════════════════════════════════════ */
 
 .editor-body {
@@ -12,14 +11,13 @@
   overflow: hidden;
 }
 
-/* ═══ الهيدر ═══ */
 .editor-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 8px 12px;
   background: #141414;
-  border-bottom: 1px solid #2a2a2a;
+  border-bottom: 2px solid var(--nk-accent, #b91c1c);
   flex-shrink: 0;
   z-index: 100;
   height: 56px;
@@ -33,20 +31,10 @@
   gap: 6px;
 }
 
-.editor-header-left {
-  flex: 1;
-  min-width: 0;
-}
+.editor-header-left { flex: 1; min-width: 0; }
+.editor-header-center { flex-shrink: 0; }
+.editor-header-right { flex-shrink: 0; }
 
-.editor-header-center {
-  flex-shrink: 0;
-}
-
-.editor-header-right {
-  flex-shrink: 0;
-}
-
-/* ─── زر أيقونة ─── */
 .editor-icon-btn {
   width: 36px;
   height: 36px;
@@ -61,7 +49,7 @@
 }
 
 .editor-icon-btn:active {
-  background: #3a3a3a;
+  background: var(--nk-accent, #b91c1c);
   color: #ffffff;
 }
 
@@ -71,12 +59,12 @@
 }
 
 .editor-icon-btn.primary {
-  background: #ffffff;
-  color: #0d0d0d;
+  background: var(--nk-accent, #b91c1c);
+  color: #ffffff;
 }
 
 .editor-icon-btn.primary:active {
-  background: #e0e0e0;
+  background: var(--nk-accent-dark, #7f1d1d);
 }
 
 .editor-icon-btn svg {
@@ -84,7 +72,6 @@
   height: 18px;
 }
 
-/* ─── حقل العنوان ─── */
 .editor-title-input {
   flex: 1;
   min-width: 0;
@@ -105,7 +92,6 @@
   color: #666;
 }
 
-/* ═══ مساحة العمل ═══ */
 .editor-main {
   flex: 1;
   display: flex;
@@ -118,7 +104,6 @@
   transition: padding-bottom 0.2s ease-out;
 }
 
-/* ─── حاوية الـ Canvas ─── */
 .canvas-wrapper {
   display: flex;
   align-items: center;
@@ -132,12 +117,11 @@
   transform: translateY(-12vh);
 }
 
-/* ─── الـ Canvas ─── */
 .canvas-stage {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 20px rgba(185, 28, 28, 0.2);
   background: #f5ede0;
   position: relative;
 }
@@ -150,12 +134,10 @@
   -webkit-user-select: none;
 }
 
-/* ═══ اللوحات القديمة (مخفية) ═══ */
 .tool-panel {
   display: none !important;
 }
 
-/* ═══ Responsive ═══ */
 @media (max-width: 360px) {
   .editor-header {
     padding: 6px 8px;
@@ -183,10 +165,9 @@
   }
 }
 
-/* ═══ شاشات كبيرة ═══ */
 @media (min-width: 900px) {
   .editor-main {
     padding: 32px;
     padding-bottom: 220px;
   }
-  }
+   }
