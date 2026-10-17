@@ -1,14 +1,10 @@
 /* ═══════════════════════════════════════════════
-   NoorKit — Toolbar.css
-   الشريط السفلي + الشريط العلوي + اللوحة الصغيرة
+   NoorKit — Toolbar.css (أحمر)
    ═══════════════════════════════════════════════ */
 
-/* ═══ الحاوية الرئيسية ═══ */
 .nk-toolbars {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  left: 0; right: 0; bottom: 0;
   z-index: 9990;
   display: flex;
   flex-direction: column;
@@ -16,7 +12,7 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* ═══ الشريط العلوي (ديناميكي) ═══ */
+/* ═══ الشريط العلوي ═══ */
 .nk-toolbar-secondary {
   display: none;
   align-items: center;
@@ -25,7 +21,6 @@
   background: var(--nk-bg-secondary, #141414);
   border-top: 1px solid var(--nk-border, #2a2a2a);
   overflow-x: auto;
-  overflow-y: hidden;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   order: 1;
@@ -33,19 +28,11 @@
   will-change: transform;
 }
 
-.nk-toolbar-secondary::-webkit-scrollbar {
-  display: none;
-}
+.nk-toolbar-secondary::-webkit-scrollbar { display: none; }
+.nk-toolbar-secondary.active { display: flex; }
+.nk-toolbars.lifted .nk-toolbar-secondary { transform: translateY(-50px); }
 
-.nk-toolbar-secondary.active {
-  display: flex;
-}
-
-.nk-toolbars.lifted .nk-toolbar-secondary {
-  transform: translateY(-50px);
-}
-
-/* ═══ الشريط السفلي (الرئيسي) ═══ */
+/* ═══ الشريط السفلي ═══ */
 .nk-toolbar-primary {
   display: flex;
   align-items: center;
@@ -54,41 +41,39 @@
   background: var(--nk-bg-primary, #0d0d0d);
   border-top: 1px solid var(--nk-border, #2a2a2a);
   overflow-x: auto;
-  overflow-y: hidden;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   order: 2;
 }
 
-.nk-toolbar-primary::-webkit-scrollbar {
-  display: none;
-}
+.nk-toolbar-primary::-webkit-scrollbar { display: none; }
 
-/* ═══ شريط الرفع ═══ */
+/* ═══ شريط الرفع 🔴 ═══ */
 .nk-lift-bar {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 24px;
-  background: var(--nk-bg-secondary, #141414);
-  border-top: 1px solid var(--nk-border, #2a2a2a);
+  background: var(--nk-accent, #b91c1c);
+  border-top: 1px solid var(--nk-accent-dark, #7f1d1d);
   cursor: pointer;
   order: 3;
+  transition: background 0.15s;
 }
 
 .nk-lift-bar:active {
-  background: var(--nk-bg-btn, #2a2a2a);
+  background: var(--nk-accent-dark, #7f1d1d);
 }
 
 .nk-lift-handle {
   width: 42px;
   height: 4px;
-  background: var(--nk-text-muted, #888);
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 2px;
 }
 
 .nk-toolbars.lifted .nk-lift-handle {
-  background: var(--nk-accent, #ffffff);
+  background: #ffffff;
 }
 
 /* ═══ الزر الواحد ═══ */
@@ -108,7 +93,7 @@
   font-family: inherit;
   font-size: 10px;
   font-weight: 700;
-  transition: color 0.1s;
+  transition: color 0.1s, background 0.15s;
   border: none;
   border-radius: 0;
   -webkit-tap-highlight-color: transparent;
@@ -116,12 +101,12 @@
 
 .nk-tool-btn:active,
 .nk-tool-btn.active {
-  color: var(--nk-text-primary, #ffffff);
+  color: #ffffff;
+  background: var(--nk-accent, #b91c1c);
 }
 
 .nk-tool-btn svg {
-  width: 22px;
-  height: 22px;
+  width: 22px; height: 22px;
   stroke: currentColor;
   stroke-width: 2;
   fill: none;
@@ -139,22 +124,20 @@
 }
 
 /* ═══════════════════════════════════════════════
-   اللوحة الصغيرة (Mini Sheet)
+   اللوحة الصغيرة
    ═══════════════════════════════════════════════ */
 
 .nk-mini-sheet {
   position: fixed;
-  left: 0;
-  right: 0;
+  left: 0; right: 0;
   z-index: 9989;
   background: var(--nk-bg-secondary, #141414);
-  border-top: 1px solid var(--nk-border, #2a2a2a);
+  border-top: 2px solid var(--nk-accent, #b91c1c);
   border-bottom: 1px solid var(--nk-border, #2a2a2a);
   transform: translateY(20px);
   opacity: 0;
   pointer-events: none;
   transition: transform 0.15s ease-out, opacity 0.15s ease-out;
-  will-change: transform, opacity;
   display: flex;
   flex-direction: column;
   direction: rtl;
@@ -168,7 +151,6 @@
   pointer-events: auto;
 }
 
-/* ─── رأس اللوحة ─── */
 .nk-mini-header {
   display: flex;
   align-items: center;
@@ -176,21 +158,21 @@
   padding: 6px 12px;
   border-bottom: 1px solid var(--nk-border, #2a2a2a);
   flex-shrink: 0;
+  background: var(--nk-bg-primary, #0d0d0d);
 }
 
 .nk-mini-title {
   font-size: 12px;
   font-weight: 700;
-  color: var(--nk-text-primary, #ffffff);
+  color: var(--nk-accent-light, #ef4444);
   flex: 1;
   text-align: center;
 }
 
 .nk-mini-close {
-  width: 26px;
-  height: 26px;
-  background: #2a2a2a;
-  color: #cccccc;
+  width: 26px; height: 26px;
+  background: var(--nk-accent, #b91c1c);
+  color: #ffffff;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
@@ -204,8 +186,7 @@
 }
 
 .nk-mini-close:active {
-  background: #3a3a3a;
-  color: #ffffff;
+  background: var(--nk-accent-dark, #7f1d1d);
 }
 
 .nk-mini-spacer {
@@ -213,14 +194,13 @@
   height: 26px;
 }
 
-/* ─── محتوى اللوحة ─── */
 .nk-mini-content {
   padding: 10px 12px 14px;
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1;
   scrollbar-width: thin;
-  scrollbar-color: #3a3a3a transparent;
+  scrollbar-color: var(--nk-accent, #b91c1c) transparent;
 }
 
 .nk-mini-content::-webkit-scrollbar {
@@ -228,13 +208,10 @@
 }
 
 .nk-mini-content::-webkit-scrollbar-thumb {
-  background: #3a3a3a;
+  background: var(--nk-accent, #b91c1c);
 }
 
-/* ═══════════════════════════════════════════════
-   صفوف محتوى اللوحات
-   ═══════════════════════════════════════════════ */
-
+/* ═══ صفوف ═══ */
 .nk-row {
   display: flex;
   align-items: center;
@@ -254,16 +231,13 @@
   font-size: 12px;
   font-weight: 700;
   color: #ffffff;
-  background: #2a2a2a;
+  background: var(--nk-accent, #b91c1c);
   padding: 3px 10px;
   min-width: 40px;
   text-align: center;
 }
 
-/* ═══════════════════════════════════════════════
-   صف الألوان
-   ═══════════════════════════════════════════════ */
-
+/* ═══ الألوان ═══ */
 .nk-color-row {
   display: flex;
   align-items: center;
@@ -302,9 +276,7 @@
   flex: 1;
 }
 
-.nk-color-scroll::-webkit-scrollbar {
-  display: none;
-}
+.nk-color-scroll::-webkit-scrollbar { display: none; }
 
 .nk-color-dot {
   width: 36px;
@@ -319,31 +291,23 @@
   transition: border-color 0.15s;
 }
 
-.nk-color-dot:active {
-  opacity: 0.7;
-}
+.nk-color-dot:active { opacity: 0.7; }
 
 .nk-color-dot.active {
-  border-color: #ffffff;
+  border-color: var(--nk-accent-light, #ef4444);
   box-shadow: inset 0 0 0 2px #141414;
 }
 
-/* ═══════════════════════════════════════════════
-   Slider
-   ═══════════════════════════════════════════════ */
-
+/* ═══ Slider ═══ */
 .ts-slider {
   width: 100%;
   height: 3px;
-  accent-color: #ffffff;
+  accent-color: var(--nk-accent, #b91c1c);
   cursor: pointer;
   background: transparent;
 }
 
-/* ═══════════════════════════════════════════════
-   منتقي اللون (iro)
-   ═══════════════════════════════════════════════ */
-
+/* ═══ منتقي اللون ═══ */
 .nk-iro-modal {
   position: fixed;
   inset: 0;
@@ -354,9 +318,7 @@
   direction: rtl;
 }
 
-.nk-iro-modal[hidden] {
-  display: none !important;
-}
+.nk-iro-modal[hidden] { display: none !important; }
 
 .nk-iro-body {
   flex: 1;
@@ -393,8 +355,8 @@
 }
 
 .nk-iro-confirm {
-  background: #ffffff;
-  color: #111;
+  background: var(--nk-accent, #b91c1c);
+  color: #fff;
 }
 
 /* ═══ Responsive ═══ */
@@ -415,4 +377,4 @@
     width: 32px;
     height: 32px;
   }
-  }
+   }
