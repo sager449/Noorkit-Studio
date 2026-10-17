@@ -1,6 +1,6 @@
 /* =========================================
-   NoorKit — Toolbar System (v4)
-   يدعم: القرآن + النص + الصور + الخلفية
+   NoorKit — Toolbar System (v5)
+   يدعم: القرآن + النص + الصور + الخلفية + التأثيرات
    ========================================= */
 
 window.NoorToolbar = {
@@ -292,12 +292,17 @@ window.NoorToolbar = {
     }
 
     /* ═══ الخلفية ═══ */
+    if (!html && typeof NoorPaperTools !== "undefined" && toolId.startsWith("paper-")) {
+      html = NoorPaperTools.renderContent(toolId);
+    }
+
+    /* ═══ التأثيرات ═══ */
     if (
       !html &&
-      typeof NoorPaperTools !== "undefined" &&
-      toolId.startsWith("paper-")
+      typeof NoorEffectsTools !== "undefined" &&
+      ["shadow", "outline", "gradient", "glow", "opacity", "highlight"].includes(toolId)
     ) {
-      html = NoorPaperTools.renderContent(toolId);
+      html = NoorEffectsTools.renderContent(toolId);
     }
 
     if (!html) {
@@ -327,6 +332,13 @@ window.NoorToolbar = {
 
     if (typeof NoorPaperTools !== "undefined" && toolId.startsWith("paper-")) {
       NoorPaperTools.bindContent(toolId);
+    }
+
+    if (
+      typeof NoorEffectsTools !== "undefined" &&
+      ["shadow", "outline", "gradient", "glow", "opacity", "highlight"].includes(toolId)
+    ) {
+      NoorEffectsTools.bindContent(toolId);
     }
 
     this.positionMiniSheet();
