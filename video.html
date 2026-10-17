@@ -4,19 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>فيديو — نور كيت</title>
-    <meta name="description" content="أنشئ فيديو قرآني احترافي." />
     <meta name="theme-color" content="#b91c1c" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/video.css" />
   </head>
   <body class="video-body">
 
-    <!-- ═══ الهيدر ═══ -->
+    <!-- ═══ الهيدر 🔴 ═══ -->
     <header class="video-header">
       <div class="video-header-left">
         <a class="video-icon-btn" href="index.html" aria-label="رجوع">
@@ -52,29 +51,73 @@
       <!-- ═══ المعاينة ═══ -->
       <div class="video-preview-wrapper">
         <div class="video-preview" id="video-preview">
-          <!-- الصورة/الخلفية -->
           <div class="video-bg" id="video-bg"></div>
+          <div class="video-text" id="video-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
           
-          <!-- النص -->
-          <div class="video-text" id="video-text"></div>
-          
-          <!-- زر التشغيل -->
           <button class="video-play-btn" id="video-play-btn">
             <svg viewBox="0 0 24 24" fill="currentColor">
               <polygon points="5 3 19 12 5 21 5 3"></polygon>
             </svg>
           </button>
 
-          <!-- شريط التقدم -->
           <div class="video-progress-bar">
             <div class="video-progress" id="video-progress"></div>
           </div>
         </div>
       </div>
 
-      <!-- ═══ الشريط السفلي ═══ -->
-      <div class="video-toolbar" id="video-toolbar">
+      <!-- ═══ الجدول الزمني (Timeline) ═══ -->
+      <div class="video-timeline" id="video-timeline">
         
+        <!-- شريط التمرير (Playhead) -->
+        <div class="video-playhead" id="video-playhead"></div>
+
+        <!-- مسار الصوت -->
+        <div class="video-track" data-track="audio">
+          <div class="video-track-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13"></path>
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="18" cy="16" r="3"></circle>
+            </svg>
+          </div>
+          <div class="video-track-content" id="track-audio">
+            <div class="video-track-empty">اسحب ملفاً هنا</div>
+          </div>
+        </div>
+
+        <!-- مسار الصورة -->
+        <div class="video-track" data-track="image">
+          <div class="video-track-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </div>
+          <div class="video-track-content" id="track-image">
+            <div class="video-track-empty">اسحب صورة هنا</div>
+          </div>
+        </div>
+
+        <!-- مسار النص -->
+        <div class="video-track" data-track="text">
+          <div class="video-track-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 7 4 4 20 4 20 7"></polyline>
+              <line x1="9" y1="20" x2="15" y2="20"></line>
+              <line x1="12" y1="4" x2="12" y2="20"></line>
+            </svg>
+          </div>
+          <div class="video-track-content" id="track-text">
+            <div class="video-track-empty">أضف نصاً</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ═══ شريط الأدوات 🔴 ═══ -->
+      <div class="video-toolbar">
         <button class="video-tool-btn" data-video-tool="audio">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 18V5l12-2v13"></path>
@@ -127,4 +170,4 @@
 
     <script src="js/video.js"></script>
   </body>
-        </html>
+  </html>
