@@ -1,6 +1,5 @@
 /* =========================================
-   NoorKit — Selection CSS
-   مربع التحديد + المقابض
+   NoorKit — Selection CSS (بالألوان الجديدة)
    ========================================= */
 
 .nk-selection {
@@ -8,6 +7,7 @@
   z-index: 9995;
   pointer-events: none;
   touch-action: none;
+  transition: transform 0.05s linear; /* سلسة جداً عند التدوير */
 }
 
 .nk-selection[hidden] {
@@ -18,17 +18,18 @@
 .nk-sel-border {
   position: absolute;
   inset: 0;
-  border: 2px dashed #ff6b00;
+  border: 2px dashed #ffffff; /* أبيض ليتماشى مع التصميم */
+  box-shadow: 0 0 0 1px rgba(185, 28, 28, 0.3); /* ظل أحمر خفيف */
   pointer-events: none;
 }
 
 /* ═══ المقابض (الأزرار) ═══ */
 .nk-sel-handle {
   position: absolute;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   background: #ffffff;
-  border: 2px solid #ff6b00;
+  border: 2px solid #b91c1c; /* حدود حمراء */
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -37,42 +38,40 @@
   pointer-events: auto;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  transition: transform 0.1s;
+  box-shadow: 0 2px 8px rgba(185, 28, 28, 0.4);
+  transition: transform 0.1s, background 0.1s;
   touch-action: none;
 }
 
 .nk-sel-handle:active {
   transform: scale(0.9);
-  background: #ff6b00;
+  background: #b91c1c; /* يتحول للأحمر عند الضغط */
+}
+
+.nk-sel-handle svg {
+  width: 14px;
+  height: 14px;
+  stroke: #b91c1c; /* أيقونة حمراء */
+  stroke-width: 2.5;
+  fill: none;
 }
 
 .nk-sel-handle:active svg {
   stroke: #ffffff;
 }
 
-.nk-sel-handle svg {
-  width: 16px;
-  height: 16px;
-  stroke: #ff6b00;
-  stroke-width: 2.5;
-  fill: none;
-}
-
-/* ─── زر الحذف (أعلى اليسار) ─── */
+/* ─── الأماكن ─── */
 .nk-sel-delete {
-  top: -17px;
-  left: -17px;
+  top: -16px;
+  left: -16px;
 }
 
-/* ─── زر التدوير (أعلى اليمين) ─── */
 .nk-sel-rotate {
-  top: -17px;
-  right: -17px;
+  top: -16px;
+  right: -16px;
 }
 
-/* ─── زر التكبير (أسفل اليمين) ─── */
 .nk-sel-resize {
-  bottom: -17px;
-  right: -17px;
+  bottom: -16px;
+  right: -16px;
 }
