@@ -1,0 +1,272 @@
+/* =========================================
+   NoorKit — Text Tools CSS
+   تصميم أدوات تبويب النص
+   ========================================= */
+
+/* ═══ صفوف الأدوات ═══ */
+.nk-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.nk-row-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #b0b0b0;
+  white-space: nowrap;
+}
+
+.nk-row-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  background: #2a2a2a;
+  padding: 3px 10px;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* ═══ الخطوط ═══ */
+.nk-font-scroll {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nk-font-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.nk-font-chip {
+  flex: 0 0 auto;
+  min-width: 80px;
+  height: 42px;
+  padding: 0 14px;
+  background: #2a2a2a;
+  border: 2px solid transparent;
+  color: #cccccc;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nk-font-chip:active {
+  background: #3a3a3a;
+}
+
+.nk-font-chip.active {
+  border-color: #ffffff;
+  color: #ffffff;
+  background: #1a1a1a;
+}
+
+/* ═══ الحجم ═══ */
+.nk-size-row {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.nk-size-btn {
+  width: 44px;
+  height: 44px;
+  background: #2a2a2a;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  padding: 0;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nk-size-btn:active {
+  background: #3a3a3a;
+}
+
+/* ═══ المحاذاة ═══ */
+.nk-align-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.nk-align-btn {
+  flex: 1;
+  padding: 12px 8px;
+  background: #2a2a2a;
+  border: 2px solid transparent;
+  color: #cccccc;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.nk-align-btn:active {
+  background: #3a3a3a;
+}
+
+.nk-align-btn.active {
+  border-color: #ffffff;
+  color: #ffffff;
+  background: #1a1a1a;
+}
+
+/* ═══ الأزرار السريعة ═══ */
+.nk-quick-row {
+  display: flex;
+  gap: 6px;
+}
+
+.nk-quick-btn {
+  flex: 1;
+  padding: 10px 4px;
+  background: #2a2a2a;
+  border: 2px solid transparent;
+  color: #cccccc;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  direction: ltr;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.nk-quick-btn:active {
+  background: #3a3a3a;
+}
+
+.nk-quick-btn.active {
+  border-color: #ffffff;
+  color: #ffffff;
+  background: #1a1a1a;
+}
+
+/* ═══ الحركة ═══ */
+.nk-move-grid {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-top: 6px;
+}
+
+.nk-move-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+
+.nk-arrow-mid {
+  display: flex;
+  gap: 4px;
+}
+
+.nk-arrow-btn {
+  width: 40px;
+  height: 40px;
+  background: #2a2a2a;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nk-arrow-btn:active {
+  background: #3a3a3a;
+}
+
+.nk-arrow-btn.center {
+  color: #b0b0b0;
+}
+
+.nk-rotate-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ═══ نافذة منتقي اللون ═══ */
+.nk-iro-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: #141414;
+  display: flex;
+  flex-direction: column;
+  direction: rtl;
+}
+
+.nk-iro-modal[hidden] {
+  display: none !important;
+}
+
+.nk-iro-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.nk-iro-footer {
+  display: flex;
+  gap: 10px;
+  padding: 14px 20px;
+  padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+}
+
+.nk-iro-btn {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+}
+
+.nk-iro-cancel {
+  background: #2a2a2a;
+  color: #ffffff;
+}
+
+.nk-iro-confirm {
+  background: #ffffff;
+  color: #111111;
+  }
