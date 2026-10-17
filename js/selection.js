@@ -1,6 +1,6 @@
 /* =========================================
-   NoorKit — Selection System (v2)
-   سلس + يدور مع العنصر
+   NoorKit — Selection System (v3)
+   مربع تحديد يدور مع العنصر + مقابض في الزوايا
    ========================================= */
 
 window.NoorSelection = {
@@ -29,29 +29,29 @@ window.NoorSelection = {
     overlay.className = "nk-selection";
     overlay.hidden = true;
     overlay.innerHTML = `
-      <div class="nk-sel-border">
-        <button class="nk-sel-handle nk-sel-delete" id="nk-sel-delete" title="حذف">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
+      <div class="nk-sel-border" id="nk-sel-border"></div>
+      
+      <button class="nk-sel-handle nk-sel-delete" id="nk-sel-delete" title="حذف">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
 
-        <button class="nk-sel-handle nk-sel-rotate" id="nk-sel-rotate" title="تدوير">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1 4 1 10 7 10"></polyline>
-            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-          </svg>
-        </button>
+      <button class="nk-sel-handle nk-sel-rotate" id="nk-sel-rotate" title="تدوير">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1 4 1 10 7 10"></polyline>
+          <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+        </svg>
+      </button>
 
-        <div class="nk-sel-handle nk-sel-resize" id="nk-sel-resize" title="تكبير">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <polyline points="9 21 3 21 3 15"></polyline>
-            <line x1="21" y1="3" x2="14" y2="10"></line>
-            <line x1="3" y1="21" x2="10" y2="14"></line>
-          </svg>
-        </div>
+      <div class="nk-sel-handle nk-sel-resize" id="nk-sel-resize" title="تكبير">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <polyline points="9 21 3 21 3 15"></polyline>
+          <line x1="21" y1="3" x2="14" y2="10"></line>
+          <line x1="3" y1="21" x2="10" y2="14"></line>
+        </svg>
       </div>
     `;
 
@@ -71,7 +71,6 @@ window.NoorSelection = {
 
       if (hit) {
         this.select(hit.type, hit.element);
-        // بدء السحب فوراً
         this.startDrag(e);
       } else {
         this.deselect();
@@ -84,7 +83,6 @@ window.NoorSelection = {
     const canvas = document.getElementById("main-canvas");
     const ctx = canvas.getContext("2d");
 
-    // 1. العناصر
     if (d.decorations && d.decorations.length > 0) {
       for (let i = d.decorations.length - 1; i >= 0; i--) {
         const el = d.decorations[i];
@@ -96,7 +94,6 @@ window.NoorSelection = {
       }
     }
 
-    // 2. الصور
     if (d.images && d.images.length > 0) {
       for (let i = d.images.length - 1; i >= 0; i--) {
         const img = d.images[i];
@@ -106,7 +103,6 @@ window.NoorSelection = {
       }
     }
 
-    // 3. النص
     if (d.ayah && d.ayah.text) {
       const padding = Math.round(d.width * 0.1);
       const maxW = d.width - padding * 2;
@@ -194,21 +190,49 @@ window.NoorSelection = {
     const width = w * scale;
     const height = h * scale;
 
-    // مركز العنصر للتدوير
-    const centerX = left + width / 2;
-    const centerY = top + height / 2;
-
     this.container.style.left = left + "px";
     this.container.style.top = top + "px";
     this.container.style.width = width + "px";
     this.container.style.height = height + "px";
-    this.container.style.transformOrigin = `${centerX - left}px ${centerY - top}px`;
-    this.container.style.transform = `rotate(${rotation}deg)`;
+
+    const border = document.getElementById("nk-sel-border");
+    if (border) {
+      border.style.transformOrigin = "center center";
+      border.style.transform = `rotate(${rotation}deg)`;
+    }
+
+    this.positionHandles(width, height, rotation);
+  },
+
+  positionHandles(w, h, rotation) {
+    const rad = (rotation * Math.PI) / 180;
+    const cx = w / 2;
+    const cy = h / 2;
+
+    const corners = [
+      { id: "delete", x: 0, y: 0 },
+      { id: "rotate", x: w, y: 0 },
+      { id: "resize", x: w, y: h }
+    ];
+
+    corners.forEach((corner) => {
+      const el = document.getElementById(`nk-sel-${corner.id}`);
+      if (!el) return;
+
+      const dx = corner.x - cx;
+      const dy = corner.y - cy;
+      
+      const rx = dx * Math.cos(rad) - dy * Math.sin(rad) + cx;
+      const ry = dx * Math.sin(rad) + dy * Math.cos(rad) + cy;
+
+      el.style.left = (rx - 16) + "px";
+      el.style.top = (ry - 16) + "px";
+    });
   },
 
   bindOverlay() {
-    // حذف
-    document.getElementById("nk-sel-delete")?.addEventListener("click", async () => {
+    document.getElementById("nk-sel-delete")?.addEventListener("click", async (e) => {
+      e.stopPropagation();
       if (!this.active) return;
       const d = NoorState.design;
 
@@ -221,32 +245,32 @@ window.NoorSelection = {
       await NoorRenderer.render();
     });
 
-    // تدوير
     const rotateBtn = document.getElementById("nk-sel-rotate");
     rotateBtn?.addEventListener("pointerdown", (e) => {
       e.preventDefault();
       e.stopPropagation();
       if (!this.active) return;
+      
       this.isRotating = true;
-      const rect = rotateBtn.getBoundingClientRect();
-      this.startX = rect.left + rect.width / 2;
-      this.startY = rect.top + rect.height / 2;
+      
       document.addEventListener("pointermove", this.onRotateMove);
       document.addEventListener("pointerup", this.onRotateEnd);
     });
 
-    // تكبير
     const resizeBtn = document.getElementById("nk-sel-resize");
     resizeBtn?.addEventListener("pointerdown", (e) => {
       e.preventDefault();
       e.stopPropagation();
       if (!this.active) return;
+      
       this.isResizing = true;
       this.startX = e.clientX;
       this.startY = e.clientY;
+      
       if (this.activeType === "text") this.startVal = NoorState.design.text.size;
       else if (this.activeType === "image") this.startVal = { w: this.active.width, h: this.active.height };
       else if (this.activeType === "element") this.startVal = this.active.size || 60;
+      
       document.addEventListener("pointermove", this.onResizeMove);
       document.addEventListener("pointerup", this.onResizeEnd);
     });
@@ -257,23 +281,11 @@ window.NoorSelection = {
     const canvas = document.getElementById("main-canvas");
     if (!canvas) return;
 
-    const d = NoorState.design;
-    let cx, cy;
-
-    if (NoorSelection.activeType === "text") {
-      cx = NoorSelection.active.x || d.width / 2;
-      cy = NoorSelection.active.y || d.height / 2;
-    } else {
-      cx = NoorSelection.active.x + (NoorSelection.active.width || 60) / 2;
-      cy = NoorSelection.active.y + (NoorSelection.active.height || 60) / 2;
-    }
-
     const rect = canvas.getBoundingClientRect();
-    const scale = NoorRenderer.previewScale;
-    const screenCx = rect.left + cx * scale;
-    const screenCy = rect.top + cy * scale;
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
 
-    const angle = Math.atan2(e.clientY - screenCy, e.clientX - screenCx) * (180 / Math.PI);
+    const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI);
     const rotation = Math.round(angle + 90);
 
     NoorSelection.active.rotation = rotation;
