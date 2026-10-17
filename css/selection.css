@@ -1,6 +1,5 @@
 /* =========================================
-   NoorKit — Selection CSS (v3)
-   المقابض لا تدور مع المربع
+   NoorKit — Selection CSS (v4)
    ========================================= */
 
 .nk-selection {
@@ -14,17 +13,16 @@
   display: none !important;
 }
 
-/* ═══ إطار التحديد — يدور ═══ */
+/* ═══ إطار التحديد ═══ */
 .nk-sel-border {
   position: absolute;
   inset: 0;
   border: 2px dashed #ffffff;
   box-shadow: 0 0 0 1px rgba(185, 28, 28, 0.3);
   pointer-events: none;
-  transition: transform 0.05s linear;
 }
 
-/* ═══ المقابض — لا تدور ═══ */
+/* ═══ المقابض ═══ */
 .nk-sel-handle {
   position: absolute;
   width: 32px;
@@ -60,20 +58,4 @@
 
 .nk-sel-handle:active svg {
   stroke: #ffffff;
-}
-
-/* ─── الأماكن (زوايا) ─── */
-.nk-sel-delete {
-  top: -16px;
-  left: -16px;
-}
-
-.nk-sel-rotate {
-  top: -16px;
-  right: -16px;
-}
-
-.nk-sel-resize {
-  bottom: -16px;
-  right: -16px;
 }
