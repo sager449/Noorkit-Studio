@@ -1,0 +1,54 @@
+/* =========================================
+   NoorKit — Templates Tools CSS
+   ========================================= */
+
+/* ═══ شبكة القوالب ═══ */
+.nk-template-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.nk-template-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: transparent;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 4px;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s;
+}
+
+.nk-template-card:active {
+  border-color: #555;
+}
+
+.nk-template-preview {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.nk-template-icon {
+  font-size: 28px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.nk-template-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: #cccccc;
+  text-align: center;
+}
+
+.nk-template-card:active .nk-template-name {
+  color: #ffffff;
+}
