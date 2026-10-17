@@ -1,6 +1,6 @@
 /* =========================================
-   NoorKit — Toolbar System (v3)
-   يدعم: القرآن + النص + الصور
+   NoorKit — Toolbar System (v4)
+   يدعم: القرآن + النص + الصور + الخلفية
    ========================================= */
 
 window.NoorToolbar = {
@@ -59,7 +59,8 @@ window.NoorToolbar = {
     paper: [
       { id: "paper-color", label: "لون", svg: `<circle cx="12" cy="12" r="9"></circle>` },
       { id: "paper-gradient", label: "تدرج", svg: `<rect x="3" y="3" width="18" height="18"></rect><path d="M3 3l18 18"></path>` },
-      { id: "paper-image", label: "صورة", svg: `<rect x="3" y="3" width="18" height="18"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline>` },
+      { id: "paper-from-device", label: "من الهاتف", svg: `<rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line>` },
+      { id: "paper-from-web", label: "من الإنترنت", svg: `<circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>` },
       { id: "paper-pattern", label: "نقش", svg: `<rect x="3" y="3" width="18" height="18"></rect><path d="M3 9h18M3 15h18M9 3v18M15 3v18"></path>` },
       { id: "paper-lighting", label: "إضاءة", svg: `<circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line><line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line>` },
       { id: "paper-fog", label: "ضباب", svg: `<path d="M3 12h18M5 16h14M7 8h10"></path>` },
@@ -290,6 +291,15 @@ window.NoorToolbar = {
       html = NoorImageTools.renderContent(toolId);
     }
 
+    /* ═══ الخلفية ═══ */
+    if (
+      !html &&
+      typeof NoorPaperTools !== "undefined" &&
+      toolId.startsWith("paper-")
+    ) {
+      html = NoorPaperTools.renderContent(toolId);
+    }
+
     if (!html) {
       html = `<p style="padding:20px;text-align:center;color:#666;font-size:13px;">قريباً</p>`;
     }
@@ -313,6 +323,10 @@ window.NoorToolbar = {
       ["image-upload", "image-rotate", "image-opacity", "image-delete"].includes(toolId)
     ) {
       NoorImageTools.bindContent(toolId);
+    }
+
+    if (typeof NoorPaperTools !== "undefined" && toolId.startsWith("paper-")) {
+      NoorPaperTools.bindContent(toolId);
     }
 
     this.positionMiniSheet();
