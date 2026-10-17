@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>فيديو — نور كيت</title>
-    <meta name="theme-color" content="#b91c1c" />
+    <meta name="theme-color" content="#ffffff" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,40 +15,26 @@
   </head>
   <body class="video-body">
 
-    <!-- ═══ الهيدر 🔴 ═══ -->
+    <!-- ═══ الهيدر ═══ -->
     <header class="video-header">
-      <div class="video-header-left">
-        <a class="video-icon-btn" href="index.html" aria-label="رجوع">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-        </a>
-        <input type="text" class="video-title-input" id="video-title" value="فيديو بدون عنوان" />
+      <div class="video-header-right">
+        <button class="video-header-btn" id="video-save-btn">
+          <span>حفظ</span>
+        </button>
       </div>
 
-      <div class="video-header-right">
-        <button class="video-icon-btn" id="video-save-btn" aria-label="حفظ">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-            <polyline points="17 21 17 13 7 13 7 21"></polyline>
-            <polyline points="7 3 7 8 15 8"></polyline>
-          </svg>
-        </button>
-        <button class="video-icon-btn primary" id="video-export-btn" aria-label="تصدير">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-        </button>
+      <div class="video-header-center">
+        <span class="video-header-title" id="video-title-display">1080p</span>
+      </div>
+
+      <div class="video-header-left">
+        <button class="video-header-btn" id="video-help-btn">?</button>
+        <a class="video-header-btn" href="index.html">←</a>
       </div>
     </header>
 
-    <!-- ═══ مساحة العمل ═══ -->
+    <!-- ═══ المعاينة ═══ -->
     <main class="video-main">
-
-      <!-- ═══ المعاينة ═══ -->
       <div class="video-preview-wrapper">
         <div class="video-preview" id="video-preview">
           <div class="video-bg" id="video-bg"></div>
@@ -59,116 +45,135 @@
               <polygon points="5 3 19 12 5 21 5 3"></polygon>
             </svg>
           </button>
-
-          <div class="video-progress-bar">
-            <div class="video-progress" id="video-progress"></div>
-          </div>
         </div>
+      </div>
+
+      <!-- أدوات المعاينة (تكبير، تشغيل، تراجع، إعادة) -->
+      <div class="video-preview-tools">
+        <button class="video-preview-tool" id="video-fullscreen-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+          </svg>
+        </button>
+        <button class="video-preview-tool" id="video-play-tool">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+        </button>
+        <div class="video-preview-tools-spacer"></div>
+        <button class="video-preview-tool" id="video-undo-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 14 4 9 9 4"></polyline>
+            <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
+          </svg>
+        </button>
+        <button class="video-preview-tool" id="video-redo-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 14 20 9 15 4"></polyline>
+            <path d="M4 20v-7a4 4 0 0 1 4-4h12"></path>
+          </svg>
+        </button>
       </div>
 
       <!-- ═══ الجدول الزمني (Timeline) ═══ -->
-      <div class="video-timeline" id="video-timeline">
+      <div class="video-timeline-section">
+        <div class="video-timeline-header">
+          <span class="video-timeline-time">0:01 / 0:05</span>
+        </div>
         
-        <!-- شريط التمرير (Playhead) -->
-        <div class="video-playhead" id="video-playhead"></div>
+        <div class="video-timeline">
+          <div class="video-playhead" id="video-playhead"></div>
+          
+          <!-- مسار الصوت -->
+          <div class="video-track" data-track="audio">
+            <div class="video-track-content" id="track-audio">
+              <span class="video-track-empty">إضافة صوت</span>
+            </div>
+            <button class="video-track-btn" data-track-btn="audio">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
 
-        <!-- مسار الصوت -->
-        <div class="video-track" data-track="audio">
-          <div class="video-track-label">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 18V5l12-2v13"></path>
-              <circle cx="6" cy="18" r="3"></circle>
-              <circle cx="18" cy="16" r="3"></circle>
-            </svg>
+          <!-- مسار الصورة -->
+          <div class="video-track" data-track="image">
+            <div class="video-track-content" id="track-image">
+              <span class="video-track-empty">صورة</span>
+            </div>
+            <button class="video-track-btn" data-track-btn="image">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
           </div>
-          <div class="video-track-content" id="track-audio">
-            <div class="video-track-empty">اسحب ملفاً هنا</div>
-          </div>
+
         </div>
-
-        <!-- مسار الصورة -->
-        <div class="video-track" data-track="image">
-          <div class="video-track-label">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-              <circle cx="8.5" cy="8.5" r="1.5"></circle>
-              <polyline points="21 15 16 10 5 21"></polyline>
-            </svg>
-          </div>
-          <div class="video-track-content" id="track-image">
-            <div class="video-track-empty">اسحب صورة هنا</div>
-          </div>
-        </div>
-
-        <!-- مسار النص -->
-        <div class="video-track" data-track="text">
-          <div class="video-track-label">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="4 7 4 4 20 4 20 7"></polyline>
-              <line x1="9" y1="20" x2="15" y2="20"></line>
-              <line x1="12" y1="4" x2="12" y2="20"></line>
-            </svg>
-          </div>
-          <div class="video-track-content" id="track-text">
-            <div class="video-track-empty">أضف نصاً</div>
-          </div>
-        </div>
-
       </div>
 
-      <!-- ═══ شريط الأدوات 🔴 ═══ -->
-      <div class="video-toolbar">
-        <button class="video-tool-btn" data-video-tool="audio">
+      <!-- ═══ شريط الأدوات السفلي ═══ -->
+      <nav class="video-toolbar">
+        <button class="video-toolbar-btn" data-video-tool="trim">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 18V5l12-2v13"></path>
+            <circle cx="6" cy="6" r="3"></circle>
             <circle cx="6" cy="18" r="3"></circle>
-            <circle cx="18" cy="16" r="3"></circle>
+            <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+            <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+            <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
           </svg>
-          <span>الصوت</span>
+          <span>اقتطاع</span>
         </button>
-
-        <button class="video-tool-btn" data-video-tool="image">
+        
+        <button class="video-toolbar-btn" data-video-tool="image">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="18" height="18" rx="2"></rect>
             <circle cx="8.5" cy="8.5" r="1.5"></circle>
             <polyline points="21 15 16 10 5 21"></polyline>
           </svg>
-          <span>الصورة</span>
+          <span>صورة</span>
         </button>
-
-        <button class="video-tool-btn" data-video-tool="text">
+        
+        <button class="video-toolbar-btn" data-video-tool="speed">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="4 7 4 4 20 4 20 7"></polyline>
-            <line x1="9" y1="20" x2="15" y2="20"></line>
-            <line x1="12" y1="4" x2="12" y2="20"></line>
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
           </svg>
-          <span>النص</span>
+          <span>سرعة</span>
         </button>
-
-        <button class="video-tool-btn" data-video-tool="settings">
+        
+        <button class="video-toolbar-btn" data-video-tool="filter">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
           </svg>
-          <span>إعدادات</span>
+          <span>فلتر</span>
         </button>
-      </div>
-
-      <!-- ═══ لوحة الخيارات ═══ -->
-      <div class="video-panel" id="video-panel" hidden>
-        <div class="video-panel-header">
-          <button class="video-panel-close" id="video-panel-close">✕</button>
-          <span class="video-panel-title" id="video-panel-title">خيارات</span>
-          <span class="video-panel-spacer"></span>
-        </div>
-        <div class="video-panel-content" id="video-panel-content"></div>
-      </div>
-
+        
+        <button class="video-toolbar-btn" data-video-tool="audio">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l12-2v13"></path>
+            <circle cx="6" cy="18" r="3"></circle>
+            <circle cx="18" cy="16" r="3"></circle>
+          </svg>
+          <span>موسيقى</span>
+        </button>
+      </nav>
     </main>
+
+    <!-- ═══ لوحة الخيارات ═══ -->
+    <div class="video-panel" id="video-panel" hidden>
+      <div class="video-panel-header">
+        <button class="video-panel-close" id="video-panel-close">✕</button>
+        <span class="video-panel-title" id="video-panel-title">خيارات</span>
+        <span class="video-panel-spacer"></span>
+      </div>
+      <div class="video-panel-content" id="video-panel-content"></div>
+    </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script src="js/video-exporter.js"></script>
-<script src="js/video.js"></script>
+    <script src="js/video.js"></script>
   </body>
-  </html>
+                  </html>
