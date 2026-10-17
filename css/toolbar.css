@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════
-   NoorKit — Toolbar.css (أحمر شامل)
+   NoorKit — Toolbar.css
+   الأشرطة حمراء
    ═══════════════════════════════════════════════ */
 
 .nk-toolbars {
@@ -8,18 +9,18 @@
   z-index: 9990;
   display: flex;
   flex-direction: column;
-  background: var(--nk-bg-primary, #4c0a0a);
+  background: #b91c1c;
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* ═══ الشريط العلوي ═══ */
+/* ═══ الشريط العلوي 🔴 ═══ */
 .nk-toolbar-secondary {
   display: none;
   align-items: center;
   gap: 4px;
   padding: 6px 8px;
-  background: var(--nk-bg-secondary, #5c1010);
-  border-top: 1px solid var(--nk-accent-dark, #7f1d1d);
+  background: #991b1b;
+  border-top: 1px solid #7f1d1d;
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
@@ -32,14 +33,14 @@
 .nk-toolbar-secondary.active { display: flex; }
 .nk-toolbars.lifted .nk-toolbar-secondary { transform: translateY(-50px); }
 
-/* ═══ الشريط السفلي ═══ */
+/* ═══ الشريط السفلي 🔴 ═══ */
 .nk-toolbar-primary {
   display: flex;
   align-items: center;
   gap: 4px;
   padding: 6px 8px;
-  background: var(--nk-bg-primary, #4c0a0a);
-  border-top: 1px solid var(--nk-accent-dark, #7f1d1d);
+  background: #b91c1c;
+  border-top: 1px solid #7f1d1d;
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
@@ -54,15 +55,15 @@
   align-items: center;
   justify-content: center;
   height: 24px;
-  background: var(--nk-accent, #dc2626);
-  border-top: 1px solid var(--nk-accent-dark, #7f1d1d);
+  background: #7f1d1d;
+  border-top: 1px solid #4c0a0a;
   cursor: pointer;
   order: 3;
   transition: background 0.15s;
 }
 
 .nk-lift-bar:active {
-  background: var(--nk-accent-dark, #7f1d1d);
+  background: #4c0a0a;
 }
 
 .nk-lift-handle {
@@ -88,7 +89,7 @@
   height: 58px;
   padding: 5px 3px;
   background: transparent;
-  color: var(--nk-text-muted, #fca5a5);
+  color: #fecaca;
   cursor: pointer;
   font-family: inherit;
   font-size: 10px;
@@ -99,10 +100,14 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.nk-tool-btn:active,
-.nk-tool-btn.active {
+.nk-tool-btn:active {
+  background: #7f1d1d;
   color: #ffffff;
-  background: var(--nk-accent, #dc2626);
+}
+
+.nk-tool-btn.active {
+  background: #ffffff;
+  color: #b91c1c;
 }
 
 .nk-tool-btn svg {
@@ -124,16 +129,16 @@
 }
 
 /* ═══════════════════════════════════════════════
-   اللوحة الصغيرة
+   اللوحة الصغيرة 🔴
    ═══════════════════════════════════════════════ */
 
 .nk-mini-sheet {
   position: fixed;
   left: 0; right: 0;
   z-index: 9989;
-  background: var(--nk-bg-secondary, #5c1010);
-  border-top: 2px solid var(--nk-accent, #dc2626);
-  border-bottom: 1px solid var(--nk-accent-dark, #7f1d1d);
+  background: #b91c1c;
+  border-top: 2px solid #ffffff;
+  border-bottom: 1px solid #7f1d1d;
   transform: translateY(20px);
   opacity: 0;
   pointer-events: none;
@@ -143,7 +148,7 @@
   direction: rtl;
   overflow: hidden;
   max-height: 32vh;
-  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.3);
 }
 
 .nk-mini-sheet.open {
@@ -157,9 +162,9 @@
   align-items: center;
   justify-content: space-between;
   padding: 6px 12px;
-  border-bottom: 1px solid var(--nk-accent-dark, #7f1d1d);
+  border-bottom: 1px solid #7f1d1d;
   flex-shrink: 0;
-  background: var(--nk-bg-primary, #4c0a0a);
+  background: #991b1b;
 }
 
 .nk-mini-title {
@@ -172,7 +177,7 @@
 
 .nk-mini-close {
   width: 26px; height: 26px;
-  background: var(--nk-accent, #dc2626);
+  background: #7f1d1d;
   color: #ffffff;
   font-size: 13px;
   font-weight: 700;
@@ -187,7 +192,7 @@
 }
 
 .nk-mini-close:active {
-  background: var(--nk-accent-dark, #7f1d1d);
+  background: #4c0a0a;
 }
 
 .nk-mini-spacer {
@@ -201,7 +206,7 @@
   overflow-x: hidden;
   flex: 1;
   scrollbar-width: thin;
-  scrollbar-color: var(--nk-accent, #dc2626) transparent;
+  scrollbar-color: #ffffff transparent;
 }
 
 .nk-mini-content::-webkit-scrollbar {
@@ -209,7 +214,7 @@
 }
 
 .nk-mini-content::-webkit-scrollbar-thumb {
-  background: var(--nk-accent, #dc2626);
+  background: #ffffff;
 }
 
 /* ═══ صفوف ═══ */
@@ -224,15 +229,15 @@
 .nk-row-label {
   font-size: 12px;
   font-weight: 700;
-  color: var(--nk-text-secondary, #fecaca);
+  color: #fee2e2;
   white-space: nowrap;
 }
 
 .nk-row-value {
   font-size: 12px;
   font-weight: 700;
-  color: #ffffff;
-  background: var(--nk-accent, #dc2626);
+  color: #b91c1c;
+  background: #ffffff;
   padding: 3px 10px;
   min-width: 40px;
   text-align: center;
@@ -249,7 +254,7 @@
 .nk-color-picker-btn {
   width: 36px;
   height: 36px;
-  border: none;
+  border: 2px solid #ffffff;
   background: conic-gradient(
     from 0deg,
     #ff0000, #ffff00, #00ff00, #00ffff,
@@ -296,14 +301,14 @@
 
 .nk-color-dot.active {
   border-color: #ffffff;
-  box-shadow: inset 0 0 0 2px var(--nk-bg-secondary, #5c1010);
+  box-shadow: inset 0 0 0 2px #b91c1c;
 }
 
 /* ═══ Slider ═══ */
 .ts-slider {
   width: 100%;
   height: 3px;
-  accent-color: var(--nk-accent-hover, #ef4444);
+  accent-color: #ffffff;
   cursor: pointer;
   background: transparent;
 }
@@ -313,7 +318,7 @@
   position: fixed;
   inset: 0;
   z-index: 10001;
-  background: var(--nk-bg-primary, #4c0a0a);
+  background: #4c0a0a;
   display: flex;
   flex-direction: column;
   direction: rtl;
@@ -351,13 +356,13 @@
 }
 
 .nk-iro-cancel {
-  background: var(--nk-accent-dark, #7f1d1d);
+  background: #7f1d1d;
   color: #fff;
 }
 
 .nk-iro-confirm {
   background: #ffffff;
-  color: var(--nk-accent-dark, #7f1d1d);
+  color: #b91c1c;
 }
 
 /* ═══ Responsive ═══ */
