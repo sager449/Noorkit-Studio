@@ -1,6 +1,6 @@
 /* =========================================
-   NoorKit — Toolbar System (v5)
-   يدعم: القرآن + النص + الصور + الخلفية + التأثيرات
+   NoorKit — Toolbar System (v6)
+   يدعم كل التبويبات
    ========================================= */
 
 window.NoorToolbar = {
@@ -268,12 +268,10 @@ window.NoorToolbar = {
 
     let html = "";
 
-    /* ═══ القرآن ═══ */
     if (toolId.startsWith("quran-") && typeof NoorQuranTools !== "undefined") {
       html = NoorQuranTools.renderContent(toolId);
     }
 
-    /* ═══ النص ═══ */
     if (
       !html &&
       typeof NoorTextTools !== "undefined" &&
@@ -282,7 +280,6 @@ window.NoorToolbar = {
       html = NoorTextTools.renderContent(toolId);
     }
 
-    /* ═══ الصور ═══ */
     if (
       !html &&
       typeof NoorImageTools !== "undefined" &&
@@ -291,12 +288,10 @@ window.NoorToolbar = {
       html = NoorImageTools.renderContent(toolId);
     }
 
-    /* ═══ الخلفية ═══ */
     if (!html && typeof NoorPaperTools !== "undefined" && toolId.startsWith("paper-")) {
       html = NoorPaperTools.renderContent(toolId);
     }
 
-    /* ═══ التأثيرات ═══ */
     if (
       !html &&
       typeof NoorEffectsTools !== "undefined" &&
@@ -305,13 +300,20 @@ window.NoorToolbar = {
       html = NoorEffectsTools.renderContent(toolId);
     }
 
+    if (
+      !html &&
+      typeof NoorElementsTools !== "undefined" &&
+      toolId.startsWith("elements-")
+    ) {
+      html = NoorElementsTools.renderContent(toolId);
+    }
+
     if (!html) {
       html = `<p style="padding:20px;text-align:center;color:#666;font-size:13px;">قريباً</p>`;
     }
 
     content.innerHTML = html;
 
-    /* ═══ الربط ═══ */
     if (toolId.startsWith("quran-") && typeof NoorQuranTools !== "undefined") {
       NoorQuranTools.bindContent(toolId);
     }
@@ -339,6 +341,10 @@ window.NoorToolbar = {
       ["shadow", "outline", "gradient", "glow", "opacity", "highlight"].includes(toolId)
     ) {
       NoorEffectsTools.bindContent(toolId);
+    }
+
+    if (typeof NoorElementsTools !== "undefined" && toolId.startsWith("elements-")) {
+      NoorElementsTools.bindContent(toolId);
     }
 
     this.positionMiniSheet();
